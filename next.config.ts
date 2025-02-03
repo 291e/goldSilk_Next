@@ -4,7 +4,7 @@ const isDev = process.env.NODE_ENV === "development";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  basePath: isDev ? "" : "/test", // ✅ 배포 환경에서 /test로 설정
+  basePath: isDev ? "" : "/test/", // ✅ 배포 환경에서 /test로 설정
   assetPrefix: isDev ? "" : "/test/", // ✅ 슬래시 중복 방지
   images: {
     domains: ["goldsilk.net"],
