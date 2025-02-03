@@ -95,3 +95,19 @@ API 연동:
 
 반응형 디자인:
 다양한 화면 크기에서 잘 보이도록 반응형 웹 디자인 적용
+
+# 앱 종료
+
+pm2 stop app-3000
+
+# 의존성 설치 (필요 시)
+
+npm install
+
+# 앱 빌드
+
+npm run build
+
+# PM2로 앱 재시작
+
+pm2 start npm --name app-3000 -- run start
