@@ -111,3 +111,4 @@ npm run build
 # PM2로 앱 재시작
 
 pm2 start npm --name app-3000 -- run start
+pm2 restart app-3000
