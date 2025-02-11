@@ -16,18 +16,19 @@ export const ReviewSlider = () => {
   const [reviews, setReviews] = useState<ReviewCardProps["review"][]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const loadReviews = async () => {
-      try {
-        const data = await fetchAllReviews();
-        setReviews(data);
-      } catch (error) {
-        console.error("리뷰 불러오기 실패:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const loadReviews = async () => {
+    try {
+      setIsLoading(true);
+      const data = await fetchAllReviews();
+      setReviews(data);
+    } catch (error) {
+      console.error("리뷰 불러오기 실패:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     loadReviews();
   }, []);
 
@@ -60,7 +61,7 @@ export const ReviewSlider = () => {
             ))
           : reviews.map((review) => (
               <SwiperSlide key={review.review_id}>
-                <ReviewCard review={review} />
+                <ReviewCard onReviewUpdate={loadReviews} review={review} />
               </SwiperSlide>
             ))}
       </Swiper>

@@ -8,8 +8,14 @@ import {
 } from "@/shared/types/auth";
 
 /** 회원가입 */
+// features/auth/api/authApi.ts
 export async function registerUser(userData: RegisterRequest) {
-  const { data } = await axiosInstance.post("/auth/register", userData);
+  const { data } = await axiosInstance.post("/auth/register", {
+    username: userData.username,
+    email: userData.email,
+    password: userData.password,
+    phone: userData.phone, // 🔹 phone 추가
+  });
   return data;
 }
 

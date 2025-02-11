@@ -21,7 +21,7 @@ export const InfoCard = ({
   link,
 }: InfoCardProps) => {
   return (
-    <Card className="shadow-md hover:shadow-lg transition-shadow border rounded-lg overflow-hidden">
+    <Card className="shadow-md hover:shadow-lg transition-shadow rounded-lg overflow-hidden max-w-[475px] mx-auto">
       <CardContent className="p-0">
         <Link className="relative flex justify-center" href={link}>
           <Image

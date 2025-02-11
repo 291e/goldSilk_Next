@@ -1,8 +1,18 @@
-"use client"; // 클라이언트 컴포넌트로 지정
+"use client";
 
-import { Provider } from "react-redux";
-import { store } from "@/shared/store/store";
+import { useEffect } from "react";
+import { useUserStore } from "@/shared/store/useUserStore";
 
-export default function Providers({ children }: { children: React.ReactNode }) {
-  return <Provider store={store}>{children}</Provider>;
+export default function AuthProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const fetchUser = useUserStore((state) => state.fetchUser);
+
+  useEffect(() => {
+    fetchUser(); // ✅ 앱이 실행될 때 로그인 상태 유지
+  }, [fetchUser]);
+
+  return <>{children}</>;
 }

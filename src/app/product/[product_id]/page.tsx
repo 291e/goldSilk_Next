@@ -5,7 +5,11 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { fetchProductById } from "@/shared/api/products";
 import { Product } from "@/shared/types/products";
-import ProductLeftSection from "@/entities/product/ui/ProductLeftSection";
+import {
+  ProductBottomSection,
+  ProductLeftSection,
+  ProductRightSection,
+} from "@/entities/product";
 export default function ProductDetailPage() {
   const params = useParams();
   const product_id = params?.product_id as string | undefined;
@@ -23,8 +27,12 @@ export default function ProductDetailPage() {
   if (!product) return <div>Loading...</div>;
 
   return (
-    <div className="container mx-auto p-4">
-      <ProductLeftSection product={product} />
+    <div className="container mx-auto p-4 flex flex-col items-center gap-0 md:gap-20">
+      <div className="flex gap-10 flex-wrap justify-center md:gap-20">
+        <ProductLeftSection product={product} />
+        <ProductRightSection product={product} />
+      </div>
+      <ProductBottomSection product={product} />
     </div>
   );
 }

@@ -4,12 +4,84 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { UserRoundPlus, ShoppingCart } from "lucide-react";
+import {
+  UserRoundPlus,
+  ShoppingCart,
+  UserRoundIcon,
+  ChevronDown,
+} from "lucide-react";
 import Logo from "@/shared/assets/logo.jpg";
 import Sidebar from "./Sidebar";
+import { useUserStore } from "@/shared/store/useUserStore";
+
+const menuItems = [
+  { name: "브랜드", href: "/brand" },
+  {
+    name: "K-Hanbok",
+    href: "/k_hanbok",
+    subMenu: [
+      { name: "실속형 한복", href: "/k_hanbok/basic" },
+      { name: "생활한복", href: "/k_hanbok/daily" },
+      { name: "K-POP 한복", href: "/k_hanbok/kpop" },
+    ],
+  },
+  {
+    name: "혼주한복",
+    href: "/honju_hanbok",
+  },
+  {
+    name: "신랑신부한복",
+    href: "/wedding_hanbok",
+  },
+  {
+    name: "Special 한복",
+    href: "/special_hanbok",
+  },
+  {
+    name: "리틀황금단",
+    href: "/little_hwanggeumdan",
+    subMenu: [
+      { name: "아동한복", href: "/little_hwanggeumdan/kids" },
+      { name: "돌잔치한복", href: "/little_hwanggeumdan/first_birthday" },
+    ],
+  },
+  {
+    name: "한복소품",
+    href: "/hanbok_accessories",
+    subMenu: [
+      { name: "속치마", href: "/hanbok_accessories/underskirt" },
+      { name: "신발", href: "/hanbok_accessories/shoes" },
+      { name: "버선", href: "/hanbok_accessories/socks" },
+      { name: "노리개", href: "/hanbok_accessories/norigae" },
+      { name: "뒷곶이", href: "/hanbok_accessories/back_ornament" },
+      { name: "장신구", href: "/hanbok_accessories/jewelry" },
+    ],
+  },
+  {
+    name: "반려동물한복",
+    href: "/pet_hanbok",
+  },
+  {
+    name: "K-Goods",
+    href: "/k_goods",
+  },
+  {
+    name: "커뮤니티",
+    href: "/community",
+    subMenu: [
+      { name: "FAQ", href: "/community/faq" },
+      { name: "황금단 소식", href: "/community/news" },
+      { name: "이벤트", href: "/community/event" },
+      { name: "체인점 안내", href: "/community/stores" },
+      { name: "후기", href: "/community/reviews" },
+    ],
+  },
+];
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const { isAuthenticated, logout } = useUserStore();
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,63 +109,59 @@ export default function Header() {
 
             {/* 네비게이션 */}
             <nav className="hidden md:flex space-x-4 lg:space-x-6 items-center">
-              <Link href="/brand" className="text-gray-700 hover:text-primary">
-                BRAND
-              </Link>
-              <Link href="/honju" className="text-gray-700 hover:text-primary">
-                혼주한복
-              </Link>
-              <Link
-                href="/wedding"
-                className="text-gray-700 hover:text-primary"
-              >
-                신랑신부한복
-              </Link>
-              <Link href="/women" className="text-gray-700 hover:text-primary">
-                여성한복
-              </Link>
-              <Link
-                href="/children"
-                className="text-gray-700 hover:text-primary"
-              >
-                아동한복
-              </Link>
-              <Link
-                href="/firstbirthday"
-                className="text-gray-700 hover:text-primary"
-              >
-                돌잔치한복
-              </Link>
-              <Link href="/custom" className="text-gray-700 hover:text-primary">
-                맞춤한복
-              </Link>
-              <Link href="/daily" className="text-gray-700 hover:text-primary">
-                생활한복
-              </Link>
-              <Link
-                href="/photoshoot"
-                className="text-gray-700 hover:text-primary"
-              >
-                화보촬영
-              </Link>
-              <Link
-                href="/sponsorship"
-                className="text-gray-700 hover:text-primary"
-              >
-                협찬
-              </Link>
-              <Link
-                href="/community"
-                className="text-gray-700 hover:text-primary"
-              >
-                COMMUNITY
-              </Link>
+              {menuItems.map(({ name, href, subMenu }) => (
+                <div key={name} className="relative group">
+                  <Link
+                    href={href}
+                    className="text-gray-700 hover:text-primary flex items-center gap-1"
+                    onMouseEnter={() => subMenu && setOpenDropdown(name)}
+                    onMouseLeave={() => setOpenDropdown(null)}
+                  >
+                    {name}
+                    {subMenu && <ChevronDown size={14} />}
+                  </Link>
+
+                  {/* 드롭다운 메뉴 */}
+                  {subMenu && openDropdown === name && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md p-2"
+                      onMouseEnter={() => setOpenDropdown(name)}
+                      onMouseLeave={() => setOpenDropdown(null)}
+                    >
+                      {subMenu.map(({ name, href }) => (
+                        <Link
+                          key={name}
+                          href={href}
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                        >
+                          {name}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </div>
+              ))}
             </nav>
 
             <nav className="hidden md:flex space-x-6">
-              <Link href="/login" className="text-gray-700 hover:text-primary">
-                <UserRoundPlus size={24} />
-              </Link>
+              {isAuthenticated ? (
+                <Link
+                  href="/profile"
+                  className="text-gray-700 hover:text-primary"
+                >
+                  <UserRoundIcon size={24} />
+                </Link>
+              ) : (
+                <Link
+                  href="/login"
+                  className="text-gray-700 hover:text-primary"
+                >
+                  <UserRoundPlus size={24} />
+                </Link>
+              )}
               <Link href="/cart" className="text-gray-700 hover:text-primary">
                 <ShoppingCart size={24} />
               </Link>
@@ -121,63 +189,59 @@ export default function Header() {
 
             {/* 네비게이션 */}
             <nav className="hidden md:flex space-x-4 lg:space-x-6 items-center">
-              <Link href="/brand" className="text-gray-700 hover:text-primary">
-                BRAND
-              </Link>
-              <Link href="/honju" className="text-gray-700 hover:text-primary">
-                혼주한복
-              </Link>
-              <Link
-                href="/wedding"
-                className="text-gray-700 hover:text-primary"
-              >
-                신랑신부한복
-              </Link>
-              <Link href="/women" className="text-gray-700 hover:text-primary">
-                여성한복
-              </Link>
-              <Link
-                href="/children"
-                className="text-gray-700 hover:text-primary"
-              >
-                아동한복
-              </Link>
-              <Link
-                href="/firstbirthday"
-                className="text-gray-700 hover:text-primary"
-              >
-                돌잔치한복
-              </Link>
-              <Link href="/custom" className="text-gray-700 hover:text-primary">
-                맞춤한복
-              </Link>
-              <Link href="/daily" className="text-gray-700 hover:text-primary">
-                생활한복
-              </Link>
-              <Link
-                href="/photoshoot"
-                className="text-gray-700 hover:text-primary"
-              >
-                화보촬영
-              </Link>
-              <Link
-                href="/sponsorship"
-                className="text-gray-700 hover:text-primary"
-              >
-                협찬
-              </Link>
-              <Link
-                href="/community"
-                className="text-gray-700 hover:text-primary"
-              >
-                COMMUNITY
-              </Link>
+              {menuItems.map(({ name, href, subMenu }) => (
+                <div key={name} className="relative group">
+                  <Link
+                    href={href}
+                    className="text-gray-700 hover:text-primary flex items-center gap-1"
+                    onMouseEnter={() => subMenu && setOpenDropdown(name)}
+                    onMouseLeave={() => setOpenDropdown(null)}
+                  >
+                    {name}
+                    {subMenu && <ChevronDown size={14} />}
+                  </Link>
+
+                  {/* 드롭다운 메뉴 */}
+                  {subMenu && openDropdown === name && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md p-2"
+                      onMouseEnter={() => setOpenDropdown(name)}
+                      onMouseLeave={() => setOpenDropdown(null)}
+                    >
+                      {subMenu.map(({ name, href }) => (
+                        <Link
+                          key={name}
+                          href={href}
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                        >
+                          {name}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </div>
+              ))}
             </nav>
 
             <nav className="hidden md:flex space-x-6">
-              <Link href="/login" className="text-gray-700 hover:text-primary">
-                <UserRoundPlus size={24} />
-              </Link>
+              {isAuthenticated ? (
+                <Link
+                  href="/profile"
+                  className="text-gray-700 hover:text-primary"
+                >
+                  <UserRoundIcon size={24} />
+                </Link>
+              ) : (
+                <Link
+                  href="/login"
+                  className="text-gray-700 hover:text-primary"
+                >
+                  <UserRoundPlus size={24} />
+                </Link>
+              )}
               <Link href="/cart" className="text-gray-700 hover:text-primary">
                 <ShoppingCart size={24} />
               </Link>

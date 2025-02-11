@@ -17,7 +17,7 @@ export default function ProductLeftSection({ product }: { product: Product }) {
   };
 
   return (
-    <div>
+    <div className="w-full max-w-xs">
       <ImageSlider currentImage={selectedImage} />
 
       <AIFaceSynthesis

@@ -76,7 +76,7 @@ export const AIFaceSynthesis = ({
   };
 
   return (
-    <div className="ai-synthesis mt-4 flex items-center justify-between h-28 max-w-md gap-4">
+    <div className="ai-synthesis mt-4 flex items-center justify-between h-28 max-w-xs gap-4">
       <label
         htmlFor="file-upload"
         className="aspect-square w-28 flex items-center justify-center rounded-md cursor-pointer hover:bg-gray-100 relative"

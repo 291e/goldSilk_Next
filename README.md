@@ -96,15 +96,19 @@ API 연동:
 반응형 디자인:
 다양한 화면 크기에서 잘 보이도록 반응형 웹 디자인 적용
 
-# 앱 종료
+# GitHub SSH 연결 후 클론(최초 1회)
 
-pm2 stop app-3000
+git clone git@github.com:myusername/my-repo.git
 
-# 의존성 설치 (필요 시)
+# GitHub 최신 풀
 
-npm install
+프로젝트 폴더 이동 후 -> git pull origin main
 
-# 앱 빌드
+# 패키지 설치
+
+npm i
+
+# Next Build
 
 npm run build
 
@@ -112,3 +116,40 @@ npm run build
 
 pm2 start npm --name app-3000 -- run start
 pm2 restart app-3000
+
+# 앱 종료
+
+pm2 stop app-3000
+
+# PM2 리스트
+
+pm2 list
+
+# 자동 세팅
+
+pm2 save
+pm2 startup
+
+# 배포 스크립트
+
+1. nano deploy.sh
+
+2. #!/bin/bash
+
+echo "📥 GitHub에서 최신 코드 가져오는 중..."
+git pull origin main
+
+echo "📦 의존성 설치 확인 중..."
+npm install
+
+echo "🔨 Next.js 빌드 중..."
+npm run build
+
+echo "🚀 서버 재시작 중..."
+pm2 restart next-app
+
+echo "✅ 배포 완료!"
+
+3. chmod +x deploy.sh
+
+4. ./deploy.sh

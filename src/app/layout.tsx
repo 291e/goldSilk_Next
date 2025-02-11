@@ -36,8 +36,7 @@ export default function RootLayout({
           <Remote />
           <main className="min-h-screen py-20">{children}</main>
           <Footer />
-        </Providers>{" "}
-        {/* Redux Provider 적용 */}
+        </Providers>
       </body>
     </html>
   );

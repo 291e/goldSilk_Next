@@ -5,7 +5,7 @@ export default function Footer() {
         <div className="flex flex-col gap-2">
           <span className="text-sm md:text-base">ABOUT US</span>
           <div className="flex flex-col text-xs md:text-sm">
-            <span>Company : 황금단 CEO : 김영기</span>
+            <span>Company : 황금단 CEO : 강영기</span>
             <span>
               Company Reg.No : 712-88-02701 통신판매업신고번호 :
               2023-대전유성-1388
