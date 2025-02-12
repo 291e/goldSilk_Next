@@ -34,7 +34,7 @@ export default function Remote() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 flex flex-col items-center space-y-3 z-50">
+    <div className="fixed bottom-6 right-2 sm:right-6 flex flex-col items-center space-y-3 z-50">
       {/* SNS 아이콘 */}
       <Link
         href="https://open.kakao.com/o/s5zVFwEg"

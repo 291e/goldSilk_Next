@@ -151,5 +151,6 @@ pm2 restart next-app
 echo "✅ 배포 완료!"
 
 3. chmod +x deploy.sh
-
+   실행 권한 부여
 4. ./deploy.sh
+   실행

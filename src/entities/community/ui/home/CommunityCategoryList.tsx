@@ -12,7 +12,7 @@ export default function CommunityCategoryList() {
           key={href}
           asChild
           variant="outline"
-          className="text-lg font-semibold"
+          className="text-base sm:text-lg font-semibold"
         >
           <Link href={href}>{name}</Link>
         </Button>

@@ -25,7 +25,7 @@ export const ProductCard = ({
   if (isLoading) {
     return (
       <div className="border rounded-lg overflow-hidden shadow-sm p-4">
-        <Skeleton className="w-full h-64 rounded-md mb-4" />
+        <Skeleton className="w-full h-48 sm:h-64 rounded-md mb-4" />
         <Skeleton className="h-6 w-3/4 mb-2" />
         <Skeleton className="h-5 w-1/2" />
       </div>
@@ -50,30 +50,43 @@ export const ProductCard = ({
     : Logo;
 
   return (
-    <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col h-full justify-between">
-      <div className="w-full h-64 overflow-hidden">
-        <Image
-          src={imageUrl}
-          alt={product.name}
-          width={300}
-          height={300}
-          className="object-cover w-full h-64 hover:scale-105 transition-transform"
-        />
-      </div>
-      <div className="p-4 flex flex-col h-[200px] justify-between">
-        <div className="flex flex-col gap-2">
-          <span className="text-sm font-semibold">{product.name}</span>
-          <span className="text-primary text-sm">
-            {Number(product.price).toLocaleString()}원
-          </span>
-          <div className="flex gap-2">
-            <Badge>{product.tags?.[0]}</Badge>
+    <Link href={`/product/${product.product_id}`} className="block">
+      <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col h-full justify-between">
+        <div className="w-full h-48 sm:h-64 overflow-hidden">
+          <Image
+            src={imageUrl}
+            alt={product.name}
+            sizes="100vw"
+            width={300}
+            height={400}
+            quality={100}
+            className="object-cover w-full h-full hover:scale-105 transition-transform"
+          />
+        </div>
+        <div className="p-4 flex flex-col flex-grow">
+          <div className="flex flex-col gap-2">
+            <span className="text-xs font-semibold line-clamp-1">
+              {product.name}
+            </span>
+            <span className="text-primary text-sm">
+              {Number(product.price).toLocaleString()}원
+            </span>
+            {product.tags?.length && (
+              <div className="flex gap-1 flex-wrap">
+                {product.tags.slice(0, 2).map((tag, index) => (
+                  <Badge key={index} className="text-[8px] px-1">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            )}
+          </div>
+          {/* 모바일에서 버튼 숨기기 */}
+          <div className="hidden sm:block">
+            <Button className="w-full text-sm mt-3 py-0">자세히 보기</Button>
           </div>
         </div>
-        <Link href={`/product/${product.product_id}`}>
-          <Button className="w-full mt-2">자세히 보기</Button>
-        </Link>
       </div>
-    </div>
+    </Link>
   );
 };

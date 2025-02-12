@@ -41,7 +41,7 @@ export default function CommunityCategoryPage() {
 
   return (
     <div className="container mx-auto px-6 py-8">
-      <h1 className="text-3xl font-bold text-center mb-10">{categoryName}</h1>
+      <h1 className="text-3xl font-bold text-center mb-8">{categoryName}</h1>
 
       {category === "branches" && (
         <div className="w-full h-96 mb-8">
@@ -72,7 +72,13 @@ export default function CommunityCategoryPage() {
         <p className="text-gray-500 text-center">등록된 게시글이 없습니다.</p>
       )}
 
-      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <div className="pt-6">
+        <SearchBar
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          onSearch={() => console.log("검색:", searchTerm)}
+        />
+      </div>
     </div>
   );
 }

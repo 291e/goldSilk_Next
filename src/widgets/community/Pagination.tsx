@@ -19,7 +19,7 @@ export default function Pagination({
       <Button
         variant="outline"
         disabled={currentPage === 1}
-        onClick={() => setCurrentPage(currentPage - 1)}
+        onClick={() => setCurrentPage(Math.max(currentPage - 1, 1))}
         className="border-none p-0"
       >
         <ChevronLeft
@@ -33,7 +33,7 @@ export default function Pagination({
       <Button
         variant="outline"
         disabled={currentPage === totalPages || totalPages === 0}
-        onClick={() => setCurrentPage(currentPage + 1)}
+        onClick={() => setCurrentPage(Math.min(currentPage + 1, totalPages))}
         className="border-none p-0"
       >
         <ChevronRight size={16} className="transform" />

@@ -90,16 +90,20 @@ export const ReviewCard = ({ review, onReviewUpdate }: ReviewCardProps) => {
       ) : (
         /** ✅ 기본 리뷰 UI */
         <div className="flex flex-col gap-2 w-full">
-          <span className="font-semibold line-clamp-1">{review.title}</span>
-          <span className="text-gray-600 line-clamp-2 text-sm">
+          <span className="font-semibold line-clamp-1 text-sm sm:text-base">
+            {review.title}
+          </span>
+          <span className="text-gray-600 line-clamp-2 text-xs sm:text-sm">
             {review.comment}
           </span>
           <span className="text-yellow-500 text-sm">
             ⭐ {review.rating} / 5
           </span>
-          <span className="text-sm text-gray-400">- {review.author}</span>
+          <span className="text-xs sm:text-sm text-gray-400">
+            - {review.author}
+          </span>
 
-          <div className="flex justify-end gap-2">
+          {/* <div className="flex justify-end gap-2">
             <Button
               variant="outline"
               size="sm"
@@ -110,7 +114,7 @@ export const ReviewCard = ({ review, onReviewUpdate }: ReviewCardProps) => {
             <Button variant="destructive" size="sm" onClick={handleDelete}>
               삭제
             </Button>
-          </div>
+          </div> */}
         </div>
       )}
     </div>

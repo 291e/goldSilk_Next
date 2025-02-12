@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Menu,
@@ -25,13 +25,13 @@ const menuItems = [
   },
   { name: "혼주한복", href: "/honju_hanbok" },
   { name: "신랑신부한복", href: "/wedding_hanbok" },
-  { name: "Special 한복", href: "/special_hanbok" },
+  { name: "Special 한복", href: "/custom_hanbok" },
   {
     name: "리틀황금단",
     href: "/little_hwanggeumdan",
     subMenu: [
-      { name: "아동한복", href: "/little_hwanggeumdan/kids" },
-      { name: "돌잔치한복", href: "/little_hwanggeumdan/first_birthday" },
+      { name: "아동한복", href: "/little_hwanggeumdan/children" },
+      { name: "돌잔치한복", href: "/little_hwanggeumdan/firstbirthday" },
     ],
   },
   {
@@ -52,10 +52,10 @@ const menuItems = [
     name: "커뮤니티",
     href: "/community/home",
     subMenu: [
-      { name: "FAQ", href: "/community/faq" },
-      { name: "황금단 소식", href: "/community/news" },
-      { name: "이벤트", href: "/community/event" },
-      { name: "체인점 안내", href: "/community/stores" },
+      { name: "FAQ", href: "/community/inquiries" },
+      { name: "황금단 소식", href: "/community/notice" },
+      { name: "이벤트", href: "/community/events" },
+      { name: "체인점 안내", href: "/community/branches" },
       { name: "후기", href: "/community/reviews" },
     ],
   },
@@ -65,6 +65,19 @@ export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated } = useUserStore();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
+  // 🔒 사이드바 열렸을 때 외부 스크롤 방지
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden"; // 페이지 스크롤 막기
+    } else {
+      document.body.style.overflow = ""; // 스크롤 다시 활성화
+    }
+
+    return () => {
+      document.body.style.overflow = ""; // 컴포넌트 언마운트 시 스크롤 복구
+    };
+  }, [isOpen]);
 
   return (
     <>
@@ -89,29 +102,26 @@ export default function Sidebar() {
         initial={{ x: "100%" }}
         animate={{ x: isOpen ? 0 : "100%" }}
         transition={{ duration: 0.3 }}
-        className="fixed top-0 right-0 w-64 bg-white shadow-lg h-full z-50"
+        className="fixed top-0 right-0 w-64 bg-white shadow-lg h-full z-50 flex flex-col"
       >
-        <nav className="flex flex-col p-4 space-y-4">
-          {/* 상단 로그인/장바구니 */}
-          <div className="flex gap-4 border-b-[1px] pb-4 justify-between">
-            {isAuthenticated ? (
-              <Link
-                href="/profile"
-                className="text-gray-700 hover:text-primary"
-              >
-                <UserRoundIcon size={24} />
-              </Link>
-            ) : (
-              <Link href="/login" className="text-gray-700 hover:text-primary">
-                <UserRoundPlus size={24} />
-              </Link>
-            )}
-            <Link href="/cart" className="text-gray-700 hover:text-primary">
-              <ShoppingCart size={24} />
+        {/* 상단 네비 */}
+        <div className="flex justify-between items-center border-b px-4 py-3">
+          {isAuthenticated ? (
+            <Link href="/profile" className="text-gray-700 hover:text-primary">
+              <UserRoundIcon size={24} />
             </Link>
-          </div>
+          ) : (
+            <Link href="/login" className="text-gray-700 hover:text-primary">
+              <UserRoundPlus size={24} />
+            </Link>
+          )}
+          <Link href="/cart" className="text-gray-700 hover:text-primary">
+            <ShoppingCart size={24} />
+          </Link>
+        </div>
 
-          {/* 메뉴 리스트 */}
+        {/* 메뉴 리스트 (외부 스크롤 막고 사이드바 내부 스크롤 가능) */}
+        <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-2">
           {menuItems.map(({ name, href, subMenu }) => (
             <div key={name}>
               {subMenu ? (
@@ -162,15 +172,15 @@ export default function Sidebar() {
               )}
             </div>
           ))}
-
-          {/* 닫기 버튼 */}
-          <button
-            className="p-4 text-gray-700 border-t-[1px] w-full"
-            onClick={() => setIsOpen(false)}
-          >
-            닫기
-          </button>
         </nav>
+
+        {/* 닫기 버튼 */}
+        <button
+          className="p-4 text-gray-700 border-t-[1px] w-full"
+          onClick={() => setIsOpen(false)}
+        >
+          닫기
+        </button>
       </motion.div>
     </>
   );

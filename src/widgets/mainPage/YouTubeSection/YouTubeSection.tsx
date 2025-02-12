@@ -11,7 +11,7 @@ const videos = [
 
 export const YouTubeSection = () => {
   return (
-    <section className="grid grid-cols-3 gap-6 my-6 rounded-md">
+    <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 my-6 rounded-md">
       {videos.map((video) => (
         <YouTubeEmbed key={video.videoId} videoId={video.videoId} />
       ))}

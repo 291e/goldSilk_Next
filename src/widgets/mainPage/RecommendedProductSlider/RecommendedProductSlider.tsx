@@ -74,6 +74,28 @@ export const RecommendedProductSlider = () => {
               </SwiperSlide>
             ))}
       </Swiper>
+
+      <style jsx global>{`
+        .swiper-button-prev,
+        .swiper-button-next {
+          color: #353535;
+          transition: transform 0.2s ease-in-out;
+        }
+
+        @media (max-width: 640px) {
+          .swiper-button-prev,
+          .swiper-button-next {
+            width: 12px !important;
+            height: 12px !important;
+            font-size: 8px !important;
+          }
+
+          .swiper-button-prev:after,
+          .swiper-button-next:after {
+            font-size: 32px !important;
+          }
+        }
+      `}</style>
     </div>
   );
 };

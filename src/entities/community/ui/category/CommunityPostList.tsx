@@ -23,9 +23,9 @@ export default function CommunityPostList({
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {paginatedPosts.map((post) => (
-          <Card key={post.community_id} className="p-4">
+          <Card key={post.community_id} className="p-0 sm:p-4">
             <CardHeader>
-              <CardTitle className="text-lg font-semibold">
+              <CardTitle className="text-base sm:text-lg font-semibold">
                 <Link
                   href={`/community/${category}/${post.community_id}`}
                   className="hover:text-primary"

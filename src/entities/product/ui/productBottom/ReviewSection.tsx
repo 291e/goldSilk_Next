@@ -88,14 +88,15 @@ export const ReviewSection = ({ productId }: ReviewSectionProps) => {
       )}
 
       {/* ✅ 리뷰 제목 & 리뷰 쓰기 버튼 */}
-      <div className="flex justify-end gap-4 items-center mb-4">
+      <div className="flex justify-end gap-4 items-center my-4">
         <Button
           variant="outline"
           onClick={() => setShowReviewForm(!showReviewForm)}
+          className="px-2 text-xs sm:text-sm"
         >
           {showReviewForm ? "취소" : "리뷰 쓰기"}
         </Button>
-        <Button variant="outline">
+        <Button variant="outline" className="px-2 text-xs sm:text-sm">
           <Link href="/reviewCommunity">모두 보기</Link>
         </Button>
       </div>

@@ -30,7 +30,7 @@ const cardData = [
 
 export const InfoCardSection = () => {
   return (
-    <section className="grid grid-cols-3 gap-6 my-6">
+    <section className="grid grid-cols-3 gap-2 sm:gap-6 my-6">
       {cardData.map((card) => (
         <InfoCard
           key={card.title}

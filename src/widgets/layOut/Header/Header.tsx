@@ -20,9 +20,9 @@ const menuItems = [
     name: "K-Hanbok",
     href: "/k_hanbok",
     subMenu: [
-      { name: "실속형 한복", href: "/k_hanbok/basic" },
-      { name: "생활한복", href: "/k_hanbok/daily" },
-      { name: "K-POP 한복", href: "/k_hanbok/kpop" },
+      { name: "실속형 한복", href: "/basic" },
+      { name: "생활한복", href: "/k_hanbok" },
+      { name: "K-POP 한복", href: "/kpop" },
     ],
   },
   {
@@ -35,26 +35,26 @@ const menuItems = [
   },
   {
     name: "Special 한복",
-    href: "/special_hanbok",
+    href: "/custom_hanbok",
   },
   {
     name: "리틀황금단",
     href: "/little_hwanggeumdan",
     subMenu: [
-      { name: "아동한복", href: "/little_hwanggeumdan/kids" },
-      { name: "돌잔치한복", href: "/little_hwanggeumdan/first_birthday" },
+      { name: "아동한복", href: "/kids" },
+      { name: "돌잔치한복", href: "/first_birthday" },
     ],
   },
   {
     name: "한복소품",
     href: "/hanbok_accessories",
     subMenu: [
-      { name: "속치마", href: "/hanbok_accessories/underskirt" },
-      { name: "신발", href: "/hanbok_accessories/shoes" },
-      { name: "버선", href: "/hanbok_accessories/socks" },
-      { name: "노리개", href: "/hanbok_accessories/norigae" },
-      { name: "뒷곶이", href: "/hanbok_accessories/back_ornament" },
-      { name: "장신구", href: "/hanbok_accessories/jewelry" },
+      { name: "속치마", href: "/underskirt" },
+      { name: "신발", href: "/shoes" },
+      { name: "버선", href: "/socks" },
+      { name: "노리개", href: "/norigae" },
+      { name: "뒷곶이", href: "/back_ornament" },
+      { name: "장신구", href: "/jewelry" },
     ],
   },
   {
@@ -69,10 +69,10 @@ const menuItems = [
     name: "커뮤니티",
     href: "/community/home",
     subMenu: [
-      { name: "FAQ", href: "/community/faq" },
-      { name: "황금단 소식", href: "/community/news" },
-      { name: "이벤트", href: "/community/event" },
-      { name: "체인점 안내", href: "/community/stores" },
+      { name: "FAQ", href: "/community/inquiries" },
+      { name: "황금단 소식", href: "/community/notice" },
+      { name: "이벤트", href: "/community/events" },
+      { name: "체인점 안내", href: "/community/branches" },
       { name: "후기", href: "/community/reviews" },
     ],
   },

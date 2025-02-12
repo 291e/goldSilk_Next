@@ -34,19 +34,19 @@ export default function CommunityPostList() {
             const categoryPosts = posts[type] || [];
 
             return (
-              <Card key={href} className="p-4">
+              <Card key={href} className="p-0 sm:p-4">
                 <CardHeader>
-                  <CardTitle className="text-lg font-semibold">
+                  <CardTitle className="text-base sm:text-lg font-semibold">
                     {name}
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="pb-2">
                   <ul className="space-y-2">
                     {categoryPosts.length > 0 ? (
                       categoryPosts.slice(0, 5).map((post) => (
                         <li
                           key={post.community_id}
-                          className="border-b pb-2 text-sm"
+                          className="border-b pb-2 text-xs sm:text-sm"
                         >
                           <Link
                             href={`/community/${post.type}/${post.community_id}`}
@@ -57,10 +57,12 @@ export default function CommunityPostList() {
                         </li>
                       ))
                     ) : (
-                      <p className="text-gray-500">게시글이 없습니다.</p>
+                      <p className="text-gray-500 text-xs">
+                        게시글이 없습니다.
+                      </p>
                     )}
                   </ul>
-                  <Button asChild variant="link" className="mt-2 px-0">
+                  <Button asChild variant={"outline"} className="mt-6 px-2">
                     <Link href={href}>더 보기</Link>
                   </Button>
                 </CardContent>

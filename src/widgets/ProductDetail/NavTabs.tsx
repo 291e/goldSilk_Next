@@ -14,7 +14,7 @@ export const NavTabs = ({ activeSection, scrollToSection }: NavTabsProps) => {
       {(["detail", "shipping", "reviews", "inquiry"] as const).map((tab) => (
         <button
           key={tab}
-          className={`px-4 py-2 font-semibold ${
+          className={`px-4 py-2 font-semibold text-xs sm:text-base ${
             activeSection === tab
               ? "border-b-2 border-[#353535] text-[#353535]"
               : "text-gray-600"
