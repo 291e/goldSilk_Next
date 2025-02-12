@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 import { useUserStore } from "@/shared/store/useUserStore";
 import { useRouter } from "next/navigation";
-import { Input } from "@/shared/ui/input";
-import { Button } from "@/shared/ui/button";
-import { Label } from "@/shared/ui/label";
-import { Checkbox } from "@/shared/ui/checkbox";
+import { Input } from "@/shared/ui/shadCn/input";
+import { Button } from "@/shared/ui/shadCn/button";
+import { Label } from "@/shared/ui/shadCn/label";
+import { Checkbox } from "@/shared/ui/shadCn/checkbox";
 import Link from "next/link";
 import { AuthCard } from "@/widgets/Auth/AuthCard";
 import { Alert, AlertTitle, AlertDescription } from "@/shared/ui";

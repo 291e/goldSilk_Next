@@ -5,7 +5,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/shared/ui/card";
+} from "@/shared/ui/shadCn/card";
 
 interface AuthCardProps {
   title: string;

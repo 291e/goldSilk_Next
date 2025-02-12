@@ -8,6 +8,7 @@ export interface Product {
   images: string[]; // 이미지 URL 배열
   detail_images: string[];
   tags?: string[];
+  category: string;
   options?: ProductOption[];
   is_displayed: boolean;
   is_sold_out: boolean;

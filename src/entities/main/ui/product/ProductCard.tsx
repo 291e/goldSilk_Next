@@ -5,7 +5,7 @@ import Image from "next/image";
 import Logo from "@/shared/assets/logo.jpg";
 import { Button, Skeleton } from "@/shared/ui";
 import Link from "next/link";
-import { Badge } from "@/shared/ui/badge";
+import { Badge } from "@/shared/ui/shadCn/badge";
 
 export interface ProductCardProps {
   product: {

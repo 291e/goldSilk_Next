@@ -67,7 +67,7 @@ const menuItems = [
   },
   {
     name: "커뮤니티",
-    href: "/community",
+    href: "/community/home",
     subMenu: [
       { name: "FAQ", href: "/community/faq" },
       { name: "황금단 소식", href: "/community/news" },
@@ -80,21 +80,29 @@ const menuItems = [
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
-  const { isAuthenticated, logout } = useUserStore();
+  const { isAuthenticated } = useUserStore();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 64) {
-        setScrolled(true); // 64px 이상 스크롤 시 애니메이션 실행
-      } else {
-        setScrolled(false); // 64px 이하일 때 기본 상태
-      }
+      setScrolled(window.scrollY > 64);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleMouseEnter = (name: string) => {
+    if (hoverTimeout) clearTimeout(hoverTimeout); // 기존 타이머 제거
+    setOpenDropdown(name);
+  };
+
+  const handleMouseLeave = () => {
+    const timeout = setTimeout(() => {
+      setOpenDropdown(null);
+    }, 200); // 200ms 지연 후 닫힘
+    setHoverTimeout(timeout);
+  };
 
   return (
     <>
@@ -114,8 +122,8 @@ export default function Header() {
                   <Link
                     href={href}
                     className="text-gray-700 hover:text-primary flex items-center gap-1"
-                    onMouseEnter={() => subMenu && setOpenDropdown(name)}
-                    onMouseLeave={() => setOpenDropdown(null)}
+                    onMouseEnter={() => handleMouseEnter(name)}
+                    onMouseLeave={handleMouseLeave}
                   >
                     {name}
                     {subMenu && <ChevronDown size={14} />}
@@ -127,9 +135,9 @@ export default function Header() {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md p-2"
-                      onMouseEnter={() => setOpenDropdown(name)}
-                      onMouseLeave={() => setOpenDropdown(null)}
+                      className="absolute left-0 mt-2 w-52 bg-white shadow-lg rounded-md p-2"
+                      onMouseEnter={() => handleMouseEnter(name)}
+                      onMouseLeave={handleMouseLeave}
                     >
                       {subMenu.map(({ name, href }) => (
                         <Link
@@ -194,8 +202,8 @@ export default function Header() {
                   <Link
                     href={href}
                     className="text-gray-700 hover:text-primary flex items-center gap-1"
-                    onMouseEnter={() => subMenu && setOpenDropdown(name)}
-                    onMouseLeave={() => setOpenDropdown(null)}
+                    onMouseEnter={() => handleMouseEnter(name)}
+                    onMouseLeave={handleMouseLeave}
                   >
                     {name}
                     {subMenu && <ChevronDown size={14} />}
@@ -207,9 +215,9 @@ export default function Header() {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md p-2"
-                      onMouseEnter={() => setOpenDropdown(name)}
-                      onMouseLeave={() => setOpenDropdown(null)}
+                      className="absolute left-0 mt-2 w-52 bg-white shadow-lg rounded-md p-2"
+                      onMouseEnter={() => handleMouseEnter(name)}
+                      onMouseLeave={handleMouseLeave}
                     >
                       {subMenu.map(({ name, href }) => (
                         <Link

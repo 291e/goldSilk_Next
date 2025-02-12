@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { useUserStore } from "@/shared/store/useUserStore";
 import { useRouter } from "next/navigation";
-import { Input } from "@/shared/ui/input";
-import { Button } from "@/shared/ui/button";
-import { Label } from "@/shared/ui/label";
+import { Input } from "@/shared/ui/shadCn/input";
+import { Button } from "@/shared/ui/shadCn/button";
+import { Label } from "@/shared/ui/shadCn/label";
 import Link from "next/link";
 import { AuthCard } from "@/widgets/Auth/AuthCard";
 import { Eye, EyeOff } from "lucide-react"; // 👁️ 비밀번호 보이기 아이콘 추가

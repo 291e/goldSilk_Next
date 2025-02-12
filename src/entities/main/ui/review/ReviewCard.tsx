@@ -8,8 +8,8 @@ import {
   deleteReview,
   updateReview,
 } from "@/features/review/services/reviewApi";
-import { Button } from "@/shared/ui/button";
-import { Textarea } from "@/shared/ui/textarea";
+import { Button } from "@/shared/ui/shadCn/button";
+import { Textarea } from "@/shared/ui/shadCn/textarea";
 import { StarRating } from "@/entities/product/ui/review/StarRating";
 
 export interface ReviewCardProps {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useUserStore } from "@/shared/store/useUserStore";
-import { Button } from "@/shared/ui/button";
+import { Button } from "@/shared/ui/shadCn/button";
 import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {

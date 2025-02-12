@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import { createReview } from "@/shared/api/reviews";
-import { Button } from "@/shared/ui/button";
-import { Input } from "@/shared/ui/input";
-import { Textarea } from "@/shared/ui/textarea";
-import { Label } from "@/shared/ui/label";
+import { Button } from "@/shared/ui/shadCn/button";
+import { Input } from "@/shared/ui/shadCn/input";
+import { Textarea } from "@/shared/ui/shadCn/textarea";
+import { Label } from "@/shared/ui/shadCn/label";
 import { StarRating } from "./StarRating";
 
 interface ReviewFormProps {

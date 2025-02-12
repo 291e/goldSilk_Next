@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { Card, CardContent } from "@/shared/ui/card";
-import { Button } from "@/shared/ui/button";
+import { Card, CardContent } from "@/shared/ui/shadCn/card";
+import { Button } from "@/shared/ui/shadCn/button";
 import Image, { StaticImageData } from "next/image";
 import "@/shared/ui/globals.css";
 import Link from "next/link";

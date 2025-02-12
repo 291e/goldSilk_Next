@@ -8,6 +8,8 @@ export interface CommunityPost {
   view_count: number;
   created_at: string;
   updated_at?: string;
+  map_id?: string;
+  sub_type?: string;
 }
 
 export interface CreateCommunityRequest {

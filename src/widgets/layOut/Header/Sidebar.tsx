@@ -50,7 +50,7 @@ const menuItems = [
   { name: "K-Goods", href: "/k_goods" },
   {
     name: "커뮤니티",
-    href: "/community",
+    href: "/community/home",
     subMenu: [
       { name: "FAQ", href: "/community/faq" },
       { name: "황금단 소식", href: "/community/news" },

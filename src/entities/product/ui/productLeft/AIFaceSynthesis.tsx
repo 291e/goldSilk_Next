@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { ImagePlus, Loader2 } from "lucide-react";
-import { Button } from "@/shared/ui/button";
+import { Button } from "@/shared/ui/shadCn/button";
 import { metaStyle } from "@/shared/assets/productDetail";
 import Image from "next/image";
 
