@@ -94,6 +94,10 @@ export const RecommendedProductSlider = () => {
           .swiper-button-next:after {
             font-size: 32px !important;
           }
+
+          .swiper-pagination-bullet-active {
+            background: #353535;
+          }
         }
       `}</style>
     </div>

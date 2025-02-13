@@ -44,7 +44,7 @@ export default function CommunityCategoryPage() {
       <h1 className="text-3xl font-bold text-center mb-8">{categoryName}</h1>
 
       {category === "branches" && (
-        <div className="w-full h-96 mb-8">
+        <div className="w-full h-96 mb-6">
           <KakaoMap />
         </div>
       )}

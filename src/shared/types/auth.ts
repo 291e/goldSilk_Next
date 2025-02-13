@@ -4,6 +4,7 @@ export interface User {
   email: string;
   phone: string;
   is_admin: boolean;
+  refresh_token: string;
 }
 
 export interface RegisterRequest {
