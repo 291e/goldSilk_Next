@@ -49,7 +49,7 @@ async function refreshAuthToken() {
     const refreshToken = sessionStorage.getItem("refresh_token");
     if (!refreshToken) return null;
 
-    const { data } = await axios.post(`${API_URL}/auth/refresh`, {
+    const { data } = await axios.post(`${API_URL}/auth/refresh-token`, {
       token: refreshToken,
     });
 

@@ -35,6 +35,7 @@
     "prettier": "^3.4.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-icons": "^5.4.0",
     "react-inner-image-zoom": "^3.0.2",
     "react-intersection-observer": "^9.15.1",
     "react-redux": "^9.2.0",

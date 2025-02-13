@@ -33,6 +33,11 @@ export default function CommunityPostList({
                   {post.title}
                 </Link>
               </CardTitle>
+              {post.is_pinned && (
+                <span className="text-xs text-yellow-700 font-semibold ">
+                  HIT
+                </span>
+              )}
               {category === "branches" && (
                 <p className="text-xs text-gray-500 mt-1">
                   {post.sub_type === "chain"

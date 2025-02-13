@@ -6,12 +6,27 @@ import {
   CommentRequest,
 } from "@/shared/types/community";
 
-/** 모든 게시글 조회 */
+/** 모든 게시글 조회 (고정된 게시글을 상단에 배치) */
 export async function fetchCommunityPosts(
   type?: string
 ): Promise<CommunityPost[]> {
   const { data } = await axiosInstance.get("/community", { params: { type } });
-  return data;
+
+  // ✅ MD 추천 게시글 우선 정렬 (is_pinned: true인 게시글 먼저 배치)
+  interface CommunityPost {
+    is_pinned: boolean;
+    created_at: string;
+    // other properties...
+  }
+
+  return data.sort((a: CommunityPost, b: CommunityPost) => {
+    if (a.is_pinned === b.is_pinned) {
+      return (
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      ); // 최신순 정렬
+    }
+    return a.is_pinned ? -1 : 1;
+  });
 }
 
 /** 특정 게시글 조회 */

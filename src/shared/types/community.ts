@@ -10,6 +10,7 @@ export interface CommunityPost {
   updated_at?: string;
   map_id?: string;
   sub_type?: string;
+  is_pinned: boolean;
 }
 
 export interface CreateCommunityRequest {

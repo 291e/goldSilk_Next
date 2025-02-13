@@ -10,6 +10,7 @@ import { Checkbox } from "@/shared/ui/shadCn/checkbox";
 import Link from "next/link";
 import { AuthCard } from "@/widgets/Auth/AuthCard";
 import { Alert, AlertTitle, AlertDescription } from "@/shared/ui";
+import SocialLoginButtons from "@/entities/auth/ui/SocialLogin";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -78,12 +79,24 @@ export default function LoginForm() {
     <AuthCard
       title="로그인"
       footer={
-        <p className="text-sm">
-          계정이 없으신가요?{" "}
-          <Link href="/signup" className="text-blue-600 hover:underline">
-            회원가입
-          </Link>
-        </p>
+        <div className="w-full flex flex-col items-start gap-4">
+          <p className="text-sm">
+            계정이 없으신가요?{" "}
+            <Link href="/signup" className="text-blue-600 hover:underline">
+              회원가입
+            </Link>
+          </p>
+
+          <div className="w-full h-[1px] bg-[#353535] rounded-full" />
+
+          <div className="flex items-center justify-between w-full">
+            <div className="flex flex-col text-left">
+              <span className="font-semibold text-sm">SNS 간편로그인</span>
+              <span className="text-xs">간편하게 로그인 해보세요.</span>
+            </div>
+            <SocialLoginButtons />
+          </div>
+        </div>
       }
     >
       {/* ✅ 로그인 실패 시 Alert 메시지 표시 */}
