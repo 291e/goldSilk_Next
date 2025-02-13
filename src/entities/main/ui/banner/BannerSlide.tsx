@@ -45,6 +45,13 @@ export const BannerSlide = ({ banners }: BannerSlideProps) => {
           </SwiperSlide>
         ))}
       </Swiper>
+
+      <style jsx global>{`
+        .swiper-pagination-bullet-active {
+          background: #353535;
+        }
+        }
+      `}</style>
     </div>
   );
 };

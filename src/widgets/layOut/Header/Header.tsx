@@ -111,7 +111,7 @@ export default function Header() {
         <header className="bg-white shadow-md w-full fixed top-0 left-0 z-50">
           <div className="container gap-4 mx-auto flex justify-between items-center py-4 px-6 text-xs lg:text-base">
             {/* 로고 */}
-            <Link href="/">
+            <Link href="https://goldsilk.net/">
               <Image src={Logo} alt="황금단 로고" width={100} height={100} />
             </Link>
 
