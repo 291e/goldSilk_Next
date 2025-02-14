@@ -1,15 +1,16 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function OAuthSuccessPage() {
-  const searchParams = useSearchParams();
   const router = useRouter();
 
   useEffect(() => {
-    const accessToken = searchParams?.get("access_token");
-    const refreshToken = searchParams?.get("refresh_token");
+    // ✅ URL에서 직접 파라미터 가져오기
+    const params = new URLSearchParams(window.location.search);
+    const accessToken = params.get("access_token");
+    const refreshToken = params.get("refresh_token");
 
     if (accessToken && refreshToken) {
       sessionStorage.setItem("access_token", accessToken);
@@ -21,7 +22,7 @@ export default function OAuthSuccessPage() {
       console.error("🚨 OAuth 토큰이 없습니다.");
       router.replace("/auth/login"); // 로그인 페이지로 리디렉트
     }
-  }, [router, searchParams]);
+  }, [router]);
 
   return <p>🔄 로그인 처리 중...</p>;
 }
