@@ -23,6 +23,10 @@ export default function OAuthCallbackPage() {
       return;
     }
 
+    useEffect(() => {
+      console.log("✅ useParams 값:", params); // provider 값 확인
+    }, [params]);
+
     const urlCode = searchParams.get("code");
     if (urlCode) {
       setCode(urlCode);
