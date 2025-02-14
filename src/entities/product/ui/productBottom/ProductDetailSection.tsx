@@ -14,6 +14,8 @@ const getFullImageUrl = (imagePath: string) => {
   return imagePath.startsWith("http") ? imagePath : `${baseUrl}${imagePath}`;
 };
 
+const isHTML = (str: string) => /<\/?[a-z][\s\S]*>/i.test(str);
+
 export const ProductDetailSection = ({
   productId,
 }: ProductDetailSectionProps) => {
@@ -45,9 +47,16 @@ export const ProductDetailSection = ({
   return (
     <section className="p-6 flex flex-col items-center w-full">
       <div>
-        <span className="text-gray-700">
-          {product.description || "주문생산협의 : 010-7397-0135"}
-        </span>
+        {isHTML(product.description) ? (
+          <div
+            className="text-gray-700"
+            dangerouslySetInnerHTML={{ __html: product.description }}
+          />
+        ) : (
+          <span className="text-gray-700">
+            {product.description || "주문생산협의 : 010-7397-0135"}
+          </span>
+        )}
       </div>
       {/* 제품 상세 이미지 */}
       <div className="mt-6 w-full">
@@ -66,9 +75,7 @@ export const ProductDetailSection = ({
               />
             ))}
           </div>
-        ) : (
-          <p className="text-gray-500">등록된 상세 이미지가 없습니다.</p>
-        )}
+        ) : null}
       </div>
     </section>
   );

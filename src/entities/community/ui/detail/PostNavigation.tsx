@@ -34,7 +34,7 @@ export default function PostNavigation({
       >
         목록
       </Button>
-      <div className="w-full flex flex-col gap-6 text-gray-600 text-sm">
+      <div className="w-full flex flex-col gap-6 text-gray-600 text-sm items-start">
         {prevPost ? (
           <Button
             variant="ghost"

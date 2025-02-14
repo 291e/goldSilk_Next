@@ -18,10 +18,14 @@ export default function CommunityPostList({
 }: CommunityPostListProps) {
   const { currentPage, setCurrentPage, paginatedPosts, totalPages } =
     useCommunityPagination(posts, 10);
+  const stripHtmlTags = (html: string) => {
+    // 이미지 태그 제거
+    return html.replace(/<img[^>]*>/g, "").trim();
+  };
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-h-[476px]">
         {paginatedPosts.map((post) => (
           <Card key={post.community_id} className="p-0 sm:p-4">
             <CardHeader>
@@ -50,9 +54,15 @@ export default function CommunityPostList({
             </CardHeader>
             <CardContent>
               <p className="text-gray-600 text-sm">
-                {post.content.length > 50
-                  ? `${post.content.slice(0, 50)}...`
-                  : post.content}
+                {post.content.startsWith("<") ? (
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: stripHtmlTags(post.content),
+                    }}
+                  />
+                ) : (
+                  post.content
+                )}
               </p>
               <p className="text-xs text-gray-400 mt-2">
                 {formatDate(post.created_at)}

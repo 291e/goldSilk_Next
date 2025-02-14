@@ -40,16 +40,16 @@ export default function CommentSection({ communityId }: CommentSectionProps) {
       </div>
 
       {/* 댓글 입력 */}
-      <div className="mt-4 flex gap-2">
+      <div className="mt-4 flex">
         <input
           type="text"
-          className="border p-2 flex-1 rounded-md"
+          className="border p-2 flex-1 rounded-md rounded-r-none"
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
           placeholder="댓글을 입력하세요..."
         />
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded-md"
+          className="bg-[#353535] text-white px-4 py-2 rounded-md rounded-l-none"
           onClick={handleCommentSubmit}
         >
           작성

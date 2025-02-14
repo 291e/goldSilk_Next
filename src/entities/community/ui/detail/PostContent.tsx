@@ -15,6 +15,12 @@ export default function PostContent({
   post: CommunityPost;
   category: string;
 }) {
+  const getFullImageUrl = (path: string) => {
+    if (!path) return "/default-image.png"; // 기본 이미지 설정
+    return path.startsWith("http")
+      ? path
+      : `https://goldsilk.net/images/${path}`;
+  };
   return (
     <Card className="shadow-lg">
       <CardHeader>
@@ -27,15 +33,20 @@ export default function PostContent({
       </CardHeader>
       <CardContent>
         <Separator className="my-4" />
-        <div className="text-gray-800 leading-relaxed">{post.content}</div>
-
+        <div className="text-gray-800 leading-relaxed">
+          {post.content.includes("<") ? ( // HTML 여부 체크
+            <div dangerouslySetInnerHTML={{ __html: post.content }} />
+          ) : (
+            <p className="whitespace-pre-wrap">{post.content}</p>
+          )}
+        </div>
         {/* 이미지 갤러리 */}
         {post.images && post.images.length > 0 && (
           <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-4">
             {post.images.map((img, index) => (
               <Image
                 key={index}
-                src={img}
+                src={getFullImageUrl(img)}
                 alt={`이미지 ${index + 1}`}
                 width={300}
                 height={200}

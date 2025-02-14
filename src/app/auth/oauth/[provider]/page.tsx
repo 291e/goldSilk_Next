@@ -50,7 +50,7 @@ export default function OAuthCallbackPage() {
 
       try {
         const { data } = await axios.get(
-          `${API_URL}/auth/oauth/${provider}?code=${code}`,
+          `${API_URL}/test/auth/oauth/${provider}?code=${code}`,
           { timeout: 10000 } // ✅ 10초 타임아웃 설정
         );
 

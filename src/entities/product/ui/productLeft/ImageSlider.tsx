@@ -5,13 +5,20 @@ import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.css";
 
 interface ImageSliderProps {
-  currentImage: string;
+  currentImage?: string; // 옵셔널 처리
 }
 
 export const ImageSlider = ({ currentImage }: ImageSliderProps) => {
-  const imageUrl = currentImage.startsWith("data:image")
-    ? currentImage
-    : `https://goldsilk.net/images/${currentImage}`;
+  // 기본 이미지 설정 (이미지가 없을 경우)
+  const defaultImage = "/images/default-placeholder.png"; // 적절한 기본 이미지 경로 사용
+  const validImage =
+    currentImage && typeof currentImage === "string"
+      ? currentImage
+      : defaultImage;
+
+  const imageUrl = validImage.startsWith("data:image")
+    ? validImage
+    : `https://goldsilk.net/images/${validImage}`;
 
   return (
     <div className="flex justify-center items-center mb-4 w-full max-w-xs relative overflow-hidden">
