@@ -7,6 +7,11 @@ interface UserState {
   token: string | null;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
+  socialLogin: (
+    provider: "naver" | "kakao" | "google",
+    token: string,
+    refreshToken: string
+  ) => void;
   register: (
     username: string,
     email: string,
@@ -62,6 +67,19 @@ export const useUserStore = create<UserState>((set) => ({
 
       throw "로그인에 실패했습니다. 다시 시도해주세요.";
     }
+  },
+
+  socialLogin: (provider, token, refreshToken) => {
+    console.log(`✅ ${provider} 소셜 로그인 완료:`, token, refreshToken);
+
+    // ✅ 세션 스토리지에 리프레시 토큰 저장
+    sessionStorage.setItem("refresh_token", refreshToken);
+
+    // ✅ 상태 업데이트
+    set({ token: refreshToken, isAuthenticated: true });
+
+    // ✅ 유저 정보 가져오기
+    useUserStore.getState().fetchUser();
   },
 
   // ✅ 회원가입 기능
