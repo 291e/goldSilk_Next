@@ -66,3 +66,11 @@ export async function fetchSimilarProducts(productId: string) {
   const { data } = await axiosInstance.get(`/products/${productId}/similar`);
   return data;
 }
+
+/** 추천 상품 조회 */
+export async function fetchRecommendedProducts(productId: string) {
+  const { data } = await axiosInstance.get(
+    `/products/${productId}/recommendations`
+  );
+  return data;
+}

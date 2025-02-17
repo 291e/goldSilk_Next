@@ -27,7 +27,7 @@ export default function ProductDetailPage() {
   if (!product) return <div>Loading...</div>;
 
   return (
-    <div className="container mx-auto p-4 flex flex-col items-center gap-0 md:gap-20">
+    <div className="container mx-auto p-4 flex flex-col items-center gap-0 md:gap-20 md:my-4">
       <div className="flex flex-col gap-4 justify-center sm:flex-row md:gap-20">
         <ProductLeftSection product={product} />
         <ProductRightSection product={product} />
