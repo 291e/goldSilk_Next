@@ -1,26 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUserStore } from "@/shared/store/useUserStore";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Input } from "@/shared/ui/shadCn/input";
 import { Button } from "@/shared/ui/shadCn/button";
 import { Label } from "@/shared/ui/shadCn/label";
 import Link from "next/link";
 import { AuthCard } from "@/widgets/Auth/AuthCard";
-import { Eye, EyeOff } from "lucide-react"; // 👁️ 비밀번호 보이기 아이콘 추가
+import { Eye, EyeOff } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/shared/ui";
 
 export default function RegisterForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { register } = useUserStore();
-  const [email, setEmail] = useState("");
+
+  // ✅ 소셜 로그인으로 전달된 값 가져오기
+  const socialProvider = searchParams?.get("provider") || "";
+  const socialEmail = searchParams?.get("email") || "";
+  const socialId = searchParams?.get("social_id") || "";
+  const socialUsername = searchParams?.get("username") || "";
+
+  const [email, setEmail] = useState(socialEmail);
   const [phone, setPhone] = useState("");
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(socialUsername);
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // 🔹 비밀번호 보이기 상태 추가
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const [errorField, setErrorField] = useState<string | null>(null); // 🔹 에러 발생한 필드 추적
+  const [errorField, setErrorField] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -51,22 +59,23 @@ export default function RegisterForm() {
     e.preventDefault();
     setError("");
     setSuccessMessage("");
-    setErrorField(null); // 🔹 에러 필드 초기화
+    setErrorField(null);
 
-    if (!username || !email || !password || !phone) {
+    if (!username || !email || (!password && !socialProvider) || !phone) {
       setError("모든 필드를 입력해주세요.");
       setErrorField(
         !username
           ? "username"
           : !email
             ? "email"
-            : !password
+            : !password && !socialProvider
               ? "password"
               : "phone"
       );
       return;
     }
-    if (password.length < 6) {
+
+    if (!socialProvider && password.length < 6) {
       setError("비밀번호는 최소 6자 이상이어야 합니다.");
       setErrorField("password");
       return;
@@ -75,10 +84,16 @@ export default function RegisterForm() {
     setLoading(true);
 
     try {
-      await register(username, email, password, phone);
-      setSuccessMessage("회원가입 성공! 로그인 페이지로 이동합니다."); // ✅ 성공 메시지 설정
+      await register(
+        username,
+        email,
+        password,
+        phone,
+        socialProvider,
+        socialId
+      );
+      setSuccessMessage("회원가입 성공! 로그인 페이지로 이동합니다.");
 
-      // ✅ 2초 후 로그인 페이지로 이동
       setTimeout(() => {
         router.push("/login");
       }, 2000);
@@ -88,7 +103,6 @@ export default function RegisterForm() {
         "회원가입에 실패했습니다. 다시 시도해주세요.";
       setError(errorMessage);
 
-      // 🔹 API 응답에 따라 어떤 필드에서 에러 발생했는지 확인
       if (errorMessage.includes("이메일")) setErrorField("email");
       else if (errorMessage.includes("전화번호")) setErrorField("phone");
       else if (errorMessage.includes("비밀번호")) setErrorField("password");
@@ -137,38 +151,42 @@ export default function RegisterForm() {
             id="email"
             type="email"
             value={email}
+            readOnly={!!socialProvider} // 🔹 소셜 로그인 이메일 수정 불가
             onChange={(e) => setEmail(e.target.value)}
             required
             className={errorField === "email" ? "border-red-500" : ""}
           />
         </div>
 
-        <div className="relative w-full">
-          <Label htmlFor="password">비밀번호</Label>
-          <div className="flex items-center w-full justify-between border-[1px] p-2 rounded-md">
-            <input
-              id="password"
-              type={showPassword ? "text" : "password"} // 🔹 보이기/숨기기 적용
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className={
-                errorField === "password"
-                  ? "border-red-500"
-                  : " outline-none w-full text-sm"
-              }
-            />
-            <button
-              type="button"
-              className="text-gray-500 hover:text-gray-700 pr-2"
-              onMouseDown={() => setShowPassword(true)} // 🔹 버튼 누르면 보이기
-              onMouseUp={() => setShowPassword(false)} // 🔹 버튼 떼면 다시 숨김
-              onMouseLeave={() => setShowPassword(false)} // 🔹 버튼 밖으로 나가면 숨김
-            >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-            </button>
+        {/* 🔹 비밀번호 입력란 (소셜 로그인 사용자는 표시하지 않음) */}
+        {!socialProvider && (
+          <div className="relative w-full">
+            <Label htmlFor="password">비밀번호</Label>
+            <div className="flex items-center w-full justify-between border-[1px] p-2 rounded-md">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className={
+                  errorField === "password"
+                    ? "border-red-500"
+                    : "outline-none w-full text-sm"
+                }
+              />
+              <button
+                type="button"
+                className="text-gray-500 hover:text-gray-700 pr-2"
+                onMouseDown={() => setShowPassword(true)}
+                onMouseUp={() => setShowPassword(false)}
+                onMouseLeave={() => setShowPassword(false)}
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         <div>
           <Label htmlFor="phone">전화번호</Label>
@@ -176,7 +194,7 @@ export default function RegisterForm() {
             id="phone"
             type="tel"
             value={phone}
-            onChange={handlePhoneChange} // 🔹 자동 '-' 추가 기능
+            onChange={handlePhoneChange}
             required
             className={errorField === "phone" ? "border-red-500" : ""}
           />

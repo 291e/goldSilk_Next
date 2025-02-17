@@ -13,6 +13,8 @@ interface UserState {
     refreshToken: string
   ) => void;
   register: (
+    socialProvider: string,
+    socialId: string,
     username: string,
     email: string,
     password: string,
