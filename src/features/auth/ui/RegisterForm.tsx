@@ -14,10 +14,8 @@ import { Alert, AlertDescription, AlertTitle } from "@/shared/ui";
 export default function RegisterForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-
   const { register } = useUserStore();
 
-  // ✅ 초기 상태값을 비우고, useEffect에서 업데이트
   const [socialProvider, setSocialProvider] = useState("");
   const [socialEmail, setSocialEmail] = useState("");
   const [socialId, setSocialId] = useState("");
@@ -57,31 +55,27 @@ export default function RegisterForm() {
     setUsername(username);
   }, [searchParams]); // searchParams가 변경될 때마다 실행
 
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhone(e.target.value);
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setSuccessMessage("");
     setErrorField(null);
 
-    if (!username || !email || (!password && !socialProvider) || !phone) {
+    if (!username || !email || !password || !phone) {
       setError("모든 필드를 입력해주세요.");
       setErrorField(
         !username
           ? "username"
           : !email
             ? "email"
-            : !password && !socialProvider
+            : !password
               ? "password"
               : "phone"
       );
       return;
     }
 
-    if (!socialProvider && password.length < 6) {
+    if (password.length < 6) {
       setError("비밀번호는 최소 6자 이상이어야 합니다.");
       setErrorField("password");
       return;
@@ -157,41 +151,40 @@ export default function RegisterForm() {
             id="email"
             type="email"
             value={email}
-            readOnly={!!socialProvider}
+            readOnly={!!socialProvider} // 소셜 로그인 시 이메일 수정 불가
             onChange={(e) => setEmail(e.target.value)}
             required
             className={errorField === "email" ? "border-red-500" : ""}
           />
         </div>
 
-        {!socialProvider && (
-          <div className="relative w-full">
-            <Label htmlFor="password">비밀번호</Label>
-            <div className="flex items-center w-full justify-between border-[1px] p-2 rounded-md">
-              <input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className={
-                  errorField === "password"
-                    ? "border-red-500"
-                    : "outline-none w-full text-sm"
-                }
-              />
-              <button
-                type="button"
-                className="text-gray-500 hover:text-gray-700 pr-2"
-                onMouseDown={() => setShowPassword(true)}
-                onMouseUp={() => setShowPassword(false)}
-                onMouseLeave={() => setShowPassword(false)}
-              >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
-            </div>
+        {/* ✅ 비밀번호 입력 필드는 항상 보이도록 변경 */}
+        <div className="relative w-full">
+          <Label htmlFor="password">비밀번호</Label>
+          <div className="flex items-center w-full justify-between border-[1px] p-2 rounded-md">
+            <input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className={
+                errorField === "password"
+                  ? "border-red-500"
+                  : "outline-none w-full text-sm"
+              }
+            />
+            <button
+              type="button"
+              className="text-gray-500 hover:text-gray-700 pr-2"
+              onMouseDown={() => setShowPassword(true)}
+              onMouseUp={() => setShowPassword(false)}
+              onMouseLeave={() => setShowPassword(false)}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
           </div>
-        )}
+        </div>
 
         <div>
           <Label htmlFor="phone">전화번호</Label>
@@ -199,7 +192,7 @@ export default function RegisterForm() {
             id="phone"
             type="tel"
             value={phone}
-            onChange={handlePhoneChange}
+            onChange={(e) => setPhone(e.target.value)}
             required
             className={errorField === "phone" ? "border-red-500" : ""}
           />
