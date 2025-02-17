@@ -14,13 +14,21 @@ import { Alert, AlertDescription, AlertTitle } from "@/shared/ui";
 export default function RegisterForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const { register } = useUserStore();
 
-  // ✅ 소셜 로그인으로 전달된 값 가져오기
-  const socialProvider = searchParams?.get("provider") || "";
-  const socialEmail = searchParams?.get("email") || "";
-  const socialId = searchParams?.get("social_id") || "";
-  const socialUsername = searchParams?.get("username") || "";
+  const [socialProvider, setSocialProvider] = useState("");
+  const [socialEmail, setSocialEmail] = useState("");
+  const [socialId, setSocialId] = useState("");
+  const [socialUsername, setSocialUsername] = useState("");
+
+  // ✅ useEffect로 searchParams 값을 useState에 저장
+  useEffect(() => {
+    setSocialProvider(searchParams?.get("provider") || "");
+    setSocialEmail(searchParams?.get("email") || "");
+    setSocialId(searchParams?.get("social_id") || "");
+    setSocialUsername(searchParams?.get("username") || "");
+  }, [searchParams]);
 
   const [email, setEmail] = useState(socialEmail);
   const [phone, setPhone] = useState("");
@@ -32,27 +40,8 @@ export default function RegisterForm() {
   const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // 🔹 전화번호 자동 '-' 추가
-  const formatPhoneNumber = (value: string) => {
-    let phoneNumber = value.replace(/\D/g, ""); // 숫자만 남김
-    if (phoneNumber.startsWith("010")) {
-      if (phoneNumber.length > 3 && phoneNumber.length <= 7) {
-        phoneNumber = `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3)}`;
-      } else if (phoneNumber.length > 7) {
-        phoneNumber = `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3, 7)}-${phoneNumber.slice(7, 11)}`;
-      }
-    } else {
-      if (phoneNumber.length > 2 && phoneNumber.length <= 6) {
-        phoneNumber = `${phoneNumber.slice(0, 2)}-${phoneNumber.slice(2)}`;
-      } else if (phoneNumber.length > 6) {
-        phoneNumber = `${phoneNumber.slice(0, 2)}-${phoneNumber.slice(2, 6)}-${phoneNumber.slice(6, 10)}`;
-      }
-    }
-    return phoneNumber;
-  };
-
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhone(formatPhoneNumber(e.target.value));
+    setPhone(e.target.value);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -151,14 +140,13 @@ export default function RegisterForm() {
             id="email"
             type="email"
             value={email}
-            readOnly={!!socialProvider} // 🔹 소셜 로그인 이메일 수정 불가
+            readOnly={!!socialProvider}
             onChange={(e) => setEmail(e.target.value)}
             required
             className={errorField === "email" ? "border-red-500" : ""}
           />
         </div>
 
-        {/* 🔹 비밀번호 입력란 (소셜 로그인 사용자는 표시하지 않음) */}
         {!socialProvider && (
           <div className="relative w-full">
             <Label htmlFor="password">비밀번호</Label>
