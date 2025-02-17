@@ -11,10 +11,20 @@ export default function ProfilePage() {
   if (!user) return <p>Loading...</p>;
 
   const handleLogout = () => {
-    logout();
-    router.push("/login");
+    if (user?.provider === "kakao") {
+      logout("kakao");
+      router.push("/login");
+    } else if (user?.provider === "naver") {
+      logout("naver");
+      router.push("/login");
+    } else if (user?.provider === "google") {
+      logout("google");
+      router.push("/login");
+    } else {
+      logout(); // 일반 로그아웃
+      router.push("/login");
+    }
   };
-
   return (
     <div className="max-w-md mx-auto mt-10 p-6 border rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4">프로필</h2>

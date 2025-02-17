@@ -18,7 +18,7 @@ interface UserState {
     password: string,
     phone: string
   ) => Promise<void>;
-  logout: () => void;
+  logout: (provider?: string) => Promise<void>;
   fetchUser: () => Promise<void>;
   initializeAuth: () => void;
 }
@@ -98,7 +98,23 @@ export const useUserStore = create<UserState>((set) => ({
   },
 
   // ✅ 로그아웃 기능 (세션 스토리지 초기화)
-  logout: () => {
+  logout: async (provider) => {
+    const refreshToken = sessionStorage.getItem("refresh_token");
+
+    if (provider) {
+      try {
+        await axiosInstance.post("/auth/social-logout", {
+          provider,
+          token: refreshToken, // ✅ 현재 저장된 토큰 전달
+        });
+
+        console.log(`✅ ${provider} 소셜 로그아웃 성공`);
+      } catch (error) {
+        console.error(`🚨 ${provider} 소셜 로그아웃 실패`, error);
+      }
+    }
+
+    // ✅ 세션 스토리지 초기화
     set({ user: null, token: null, isAuthenticated: false });
     sessionStorage.removeItem("refresh_token");
   },
