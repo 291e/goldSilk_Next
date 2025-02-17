@@ -17,28 +17,45 @@ export default function RegisterForm() {
 
   const { register } = useUserStore();
 
+  // ✅ 초기 상태값을 비우고, useEffect에서 업데이트
   const [socialProvider, setSocialProvider] = useState("");
   const [socialEmail, setSocialEmail] = useState("");
   const [socialId, setSocialId] = useState("");
   const [socialUsername, setSocialUsername] = useState("");
 
-  // ✅ useEffect로 searchParams 값을 useState에 저장
-  useEffect(() => {
-    setSocialProvider(searchParams?.get("provider") || "");
-    setSocialEmail(searchParams?.get("email") || "");
-    setSocialId(searchParams?.get("social_id") || "");
-    setSocialUsername(searchParams?.get("username") || "");
-  }, [searchParams]);
-
-  const [email, setEmail] = useState(socialEmail);
+  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [username, setUsername] = useState(socialUsername);
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [errorField, setErrorField] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // ✅ searchParams 값을 가져와 상태 업데이트
+  useEffect(() => {
+    const provider = searchParams?.get("provider") || "";
+    const email = searchParams?.get("email") || "";
+    const socialId = searchParams?.get("social_id") || "";
+    const username = searchParams?.get("username") || "";
+
+    console.log("🔄 소셜 로그인 데이터 업데이트:", {
+      provider,
+      email,
+      socialId,
+      username,
+    });
+
+    setSocialProvider(provider);
+    setSocialEmail(email);
+    setSocialId(socialId);
+    setSocialUsername(username);
+
+    // ✅ useEffect에서 form state 업데이트
+    setEmail(email);
+    setUsername(username);
+  }, [searchParams]); // searchParams가 변경될 때마다 실행
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(e.target.value);
