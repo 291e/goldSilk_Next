@@ -69,12 +69,12 @@ const menuItems = [
   },
   {
     name: "커뮤니티",
-    href: "/Community/home",
+    href: "/commu/home",
     subMenu: [
-      { name: "FAQ", href: "/Community/inquiries" },
-      { name: "황금단 소식", href: "/Community/notice" },
-      { name: "이벤트", href: "/Community/events" },
-      { name: "체인점 안내", href: "/Community/branches" },
+      { name: "FAQ", href: "/commu/inquiries" },
+      { name: "황금단 소식", href: "/commu/notice" },
+      { name: "이벤트", href: "/commu/events" },
+      { name: "체인점 안내", href: "/commu/branches" },
       { name: "후기", href: "/reviewCommunity" },
     ],
   },
@@ -181,7 +181,7 @@ export default function Header() {
                   <UserRoundPlus size={20} />
                 </Link>
               )}
-              <Link href="/Cart" className="text-gray-700 hover:text-primary">
+              <Link href="/Carts" className="text-gray-700 hover:text-primary">
                 <ShoppingCart size={20} />
               </Link>
               {isAdmin && ( // ✅ 어드민이면 보이게 설정
@@ -266,7 +266,7 @@ export default function Header() {
                   <UserRoundPlus size={20} />
                 </Link>
               )}
-              <Link href="/Cart" className="text-gray-700 hover:text-primary">
+              <Link href="/Carts" className="text-gray-700 hover:text-primary">
                 <ShoppingCart size={20} />
               </Link>
               {isAdmin && ( // ✅ 어드민이면 보이게 설정

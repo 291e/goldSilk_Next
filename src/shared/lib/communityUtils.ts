@@ -6,10 +6,10 @@ export const cleanMapId = (mapId: string) => mapId.replace(/[{""}]/g, "");
 
 /** 카테고리 리스트 */
 export const categories = [
-  { name: "공지사항", type: "notice", href: "/community/notice" },
-  { name: "이벤트", type: "event", href: "/community/event" },
-  { name: "체인점 안내", type: "branches", href: "/community/branches" },
-  { name: "FAQ", type: "faq", href: "/community/faq" },
+  { name: "공지사항", type: "notice", href: "/commu/notice" },
+  { name: "이벤트", type: "event", href: "/commu/event" },
+  { name: "체인점 안내", type: "branches", href: "/commu/branches" },
+  { name: "FAQ", type: "faq", href: "/commu/faq" },
 ];
 
 /** 카테고리 한글 변환 매핑 */

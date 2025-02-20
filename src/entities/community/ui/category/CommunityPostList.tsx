@@ -31,7 +31,7 @@ export default function CommunityPostList({
             <CardHeader>
               <CardTitle className="text-base sm:text-lg font-semibold">
                 <Link
-                  href={`/community/${category}/${post.community_id}`}
+                  href={`/commu/${category}/${post.community_id}`}
                   className="hover:text-primary"
                 >
                   {post.title}

@@ -49,7 +49,7 @@ export default function CommunityPostList() {
                           className="border-b pb-2 text-xs sm:text-sm"
                         >
                           <Link
-                            href={`/community/${post.type}/${post.community_id}`}
+                            href={`/commu/${post.type}/${post.community_id}`}
                             className="text-gray-700 hover:text-primary"
                           >
                             {post.title}

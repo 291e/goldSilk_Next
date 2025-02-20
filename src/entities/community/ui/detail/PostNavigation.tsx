@@ -23,14 +23,14 @@ export default function PostNavigation({
   const nextPost = postIndex < posts.length - 1 ? posts[postIndex + 1] : null;
 
   const handleNavigation = (targetPostId: number) => {
-    router.push(`/community/${category}/${targetPostId}`);
+    router.push(`/commu/${category}/${targetPostId}`);
   };
 
   return (
     <div className="mt-10 flex flex-col items-start gap-4">
       <Button
         variant="outline"
-        onClick={() => router.push(`/community/${category}`)}
+        onClick={() => router.push(`/commu/${category}`)}
       >
         목록
       </Button>
