@@ -3,7 +3,7 @@ import {
   fetchReviewsByProduct,
   createReview,
   deleteReview,
-} from "../services/reviewApi";
+} from "@/shared/api/reviews";
 import { Review } from "@/shared/types/reviews";
 
 interface ReviewStore {

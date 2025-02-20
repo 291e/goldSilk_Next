@@ -8,6 +8,7 @@ import {
   UserRoundIcon,
   UserRoundPlus,
   ChevronDown,
+  Settings,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useUserStore } from "@/shared/store/useUserStore";
@@ -56,15 +57,20 @@ const menuItems = [
       { name: "황금단 소식", href: "/community/notice" },
       { name: "이벤트", href: "/community/events" },
       { name: "체인점 안내", href: "/community/branches" },
-      { name: "후기", href: "/community/reviews" },
+      { name: "후기", href: "/reviewCommunity" },
     ],
   },
 ];
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { isAuthenticated } = useUserStore();
+  const { isAuthenticated, user, isLoading } = useUserStore();
+  const [isAdmin, setIsAdmin] = useState(user?.is_admin === true);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
+  useEffect(() => {
+    setIsAdmin(user?.is_admin === true); // ✅ 유저 상태 변경 시 관리자 여부 업데이트
+  }, [user]);
 
   // 🔒 사이드바 열렸을 때 외부 스크롤 방지
   useEffect(() => {
@@ -78,6 +84,10 @@ export default function Sidebar() {
       document.body.style.overflow = ""; // 컴포넌트 언마운트 시 스크롤 복구
     };
   }, [isOpen]);
+
+  if (isLoading) {
+    return <div className="w-full h-16 bg-white shadow-md">로딩 중...</div>; // ✅ 로딩 중이면 깜빡임 방지
+  }
 
   return (
     <>
@@ -118,6 +128,11 @@ export default function Sidebar() {
           <Link href="/cart" className="text-gray-700 hover:text-primary">
             <ShoppingCart size={24} />
           </Link>
+          {isAdmin && ( // ✅ 어드민이면 보이게 설정
+            <Link href="/admin" className="text-gray-700 hover:text-primary">
+              <Settings size={24} />
+            </Link>
+          )}
         </div>
 
         {/* 메뉴 리스트 (외부 스크롤 막고 사이드바 내부 스크롤 가능) */}

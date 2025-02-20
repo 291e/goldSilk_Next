@@ -51,8 +51,8 @@ export default function RegisterForm() {
     setSocialUsername(username);
 
     // ✅ useEffect에서 form state 업데이트
-    setEmail(email);
-    setUsername(username);
+    setEmail(email || "");
+    setUsername(username || "");
   }, [searchParams]); // searchParams가 변경될 때마다 실행
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -151,7 +151,7 @@ export default function RegisterForm() {
             id="email"
             type="email"
             value={email}
-            readOnly={!!socialProvider} // 소셜 로그인 시 이메일 수정 불가
+            readOnly={socialProvider !== ""} // 소셜 로그인 시 이메일 수정 불가
             onChange={(e) => setEmail(e.target.value)}
             required
             className={errorField === "email" ? "border-red-500" : ""}

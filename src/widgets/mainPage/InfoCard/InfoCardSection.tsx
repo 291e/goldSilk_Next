@@ -12,19 +12,19 @@ const cardData = [
     title: "이벤트&프로모션",
     image: { src: main_infoCrad01, alt: "카드 1 이미지" },
     description: "황금단 이벤트 및 프로모션 안내입니다.",
-    link: "/event",
+    link: "/community/events",
   },
   {
     title: "상품 문의",
     image: { src: main_infoCrad02, alt: "카드 2 이미지" },
     description: "궁금하신 사항은 언제든지 문의해주세요.",
-    link: "/reviews",
+    link: "/community/inquiries",
   },
   {
     title: "고객 후기",
     image: { src: main_infoCrad03, alt: "카드 3 이미지" },
     description: "고객님들의 후기 게시판입니다.",
-    link: "/inquiries",
+    link: "/reviewCommunity",
   },
 ];
 

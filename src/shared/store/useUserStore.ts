@@ -1,11 +1,13 @@
 import { create } from "zustand";
 import axiosInstance from "@/shared/api/axiosInstance";
-import { User } from "../types/auth";
+import { User } from "@/shared/types/auth";
 
 interface UserState {
   user: User | null;
   token: string | null;
   isAuthenticated: boolean;
+  isAdmin: boolean;
+  isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   socialLogin: (
     provider: "naver" | "kakao" | "google",
@@ -29,6 +31,8 @@ export const useUserStore = create<UserState>((set) => ({
   user: null,
   token: null,
   isAuthenticated: false,
+  isAdmin: false,
+  isLoading: true,
 
   // ✅ 로그인 기능 (리프레시 토큰 사용)
   login: async (email, password) => {
@@ -71,16 +75,11 @@ export const useUserStore = create<UserState>((set) => ({
     }
   },
 
+  // ✅ 소셜 로그인
   socialLogin: (provider, token, refreshToken) => {
-    console.log(`✅ ${provider} 소셜 로그인 완료:`, token, refreshToken);
-
-    // ✅ 세션 스토리지에 리프레시 토큰 저장
     sessionStorage.setItem("refresh_token", refreshToken);
-
-    // ✅ 상태 업데이트
     set({ token: refreshToken, isAuthenticated: true });
 
-    // ✅ 유저 정보 가져오기
     useUserStore.getState().fetchUser();
   },
 
@@ -126,20 +125,33 @@ export const useUserStore = create<UserState>((set) => ({
     try {
       const refreshToken = sessionStorage.getItem("refresh_token");
       if (!refreshToken) {
-        console.log("🔄 리프레시 토큰 없음, fetchUser 중단");
+        set({
+          user: null,
+          isAuthenticated: false,
+          isLoading: false,
+          isAdmin: false,
+        });
         return;
       }
-
-      console.log("🔄 auth/me 요청 보냄, 토큰:", refreshToken);
 
       const { data } = await axiosInstance.get("/auth/me", {
         headers: { Authorization: `Bearer ${refreshToken}` }, // ✅ 최신 리프레시 토큰 사용
       });
 
-      set({ user: data, isAuthenticated: true });
+      set({
+        user: data,
+        isAuthenticated: true,
+        isAdmin: data.is_admin || false,
+        isLoading: false,
+      });
     } catch (error) {
       console.error("🚨 유저 정보 불러오기 실패:", error);
-      set({ user: null, isAuthenticated: false });
+      set({
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+        isAdmin: false,
+      });
       sessionStorage.removeItem("refresh_token");
     }
   },
@@ -148,9 +160,11 @@ export const useUserStore = create<UserState>((set) => ({
   initializeAuth: () => {
     const refreshToken = sessionStorage.getItem("refresh_token");
     if (refreshToken) {
-      set({ token: refreshToken });
+      set({ token: refreshToken, isLoading: true });
       axiosInstance.defaults.headers.Authorization = `Bearer ${refreshToken}`;
       useUserStore.getState().fetchUser(); // ✅ 로그인 상태 유지
+    } else {
+      set({ isLoading: false });
     }
   },
 }));

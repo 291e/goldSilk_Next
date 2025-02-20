@@ -9,10 +9,12 @@ import {
   ShoppingCart,
   UserRoundIcon,
   ChevronDown,
+  Settings,
 } from "lucide-react";
 import Logo from "@/shared/assets/logo.jpg";
 import Sidebar from "./Sidebar";
 import { useUserStore } from "@/shared/store/useUserStore";
+import SkeletonHeader from "./SkeletonHeader";
 
 const menuItems = [
   { name: "브랜드", href: "/brand" },
@@ -73,16 +75,21 @@ const menuItems = [
       { name: "황금단 소식", href: "/community/notice" },
       { name: "이벤트", href: "/community/events" },
       { name: "체인점 안내", href: "/community/branches" },
-      { name: "후기", href: "/community/reviews" },
+      { name: "후기", href: "/reviewCommunity" },
     ],
   },
 ];
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
-  const { isAuthenticated } = useUserStore();
+  const { isAuthenticated, user, isLoading } = useUserStore();
+  const [isAdmin, setIsAdmin] = useState(user?.is_admin === true);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    setIsAdmin(user?.is_admin === true); // ✅ 유저 상태 변경 시 관리자 여부 업데이트
+  }, [user]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -100,96 +107,20 @@ export default function Header() {
   const handleMouseLeave = () => {
     const timeout = setTimeout(() => {
       setOpenDropdown(null);
-    }, 200); // 200ms 지연 후 닫힘
+    }, 200); // 180ms 지연 후 닫힘
     setHoverTimeout(timeout);
   };
+
+  if (isLoading) {
+    return <SkeletonHeader />; // ✅ 로딩 중이면 깜빡임 방지
+  }
 
   return (
     <>
       {/* 처음에 보이는 기본 헤더 */}
       {!scrolled && (
         <header className="bg-white shadow-md w-full fixed top-0 left-0 z-50">
-          <div className="container gap-4 mx-auto flex justify-between items-center py-4 px-6 text-xs lg:text-base">
-            {/* 로고 */}
-            <Link href="https://goldsilk.net/">
-              <Image src={Logo} alt="황금단 로고" width={100} height={100} />
-            </Link>
-
-            {/* 네비게이션 */}
-            <nav className="hidden md:flex space-x-4 lg:space-x-6 items-center">
-              {menuItems.map(({ name, href, subMenu }) => (
-                <div key={name} className="relative group">
-                  <Link
-                    href={href}
-                    className="text-gray-700 hover:text-primary flex items-center gap-1"
-                    onMouseEnter={() => handleMouseEnter(name)}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    {name}
-                    {subMenu && <ChevronDown size={14} />}
-                  </Link>
-
-                  {/* 드롭다운 메뉴 */}
-                  {subMenu && openDropdown === name && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="absolute left-0 mt-2 w-52 bg-white shadow-lg rounded-md p-2"
-                      onMouseEnter={() => handleMouseEnter(name)}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      {subMenu.map(({ name, href }) => (
-                        <Link
-                          key={name}
-                          href={href}
-                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                        >
-                          {name}
-                        </Link>
-                      ))}
-                    </motion.div>
-                  )}
-                </div>
-              ))}
-            </nav>
-
-            <nav className="hidden md:flex space-x-6">
-              {isAuthenticated ? (
-                <Link
-                  href="/profile"
-                  className="text-gray-700 hover:text-primary"
-                >
-                  <UserRoundIcon size={24} />
-                </Link>
-              ) : (
-                <Link
-                  href="/login"
-                  className="text-gray-700 hover:text-primary"
-                >
-                  <UserRoundPlus size={24} />
-                </Link>
-              )}
-              <Link href="/cart" className="text-gray-700 hover:text-primary">
-                <ShoppingCart size={24} />
-              </Link>
-            </nav>
-
-            {/* 모바일 메뉴 버튼 */}
-            <Sidebar />
-          </div>
-        </header>
-      )}
-
-      {/* 스크롤 후 등장하는 애니메이션 헤더 */}
-      {scrolled && (
-        <motion.header
-          initial={{ y: -100, opacity: 0 }} // 처음에는 위에 숨겨져 있음
-          animate={{ y: 0, opacity: 1 }} // 등장할 때 아래로 내려옴
-          transition={{ duration: 0.3 }} // 부드러운 애니메이션 적용
-          className="bg-white shadow-md fixed w-full top-0 z-50"
-        >
-          <div className="container gap-4 mx-auto flex justify-between items-center py-4 px-6 text-xs lg:text-base">
+          <div className="container gap-4 mx-auto flex justify-between xl:justify-around items-center py-4 px-6 text-xs lg:text-sm sm:px-2 lg:px-6 sm:max-w-full max-md:max-w-full">
             {/* 로고 */}
             <Link href="/">
               <Image src={Logo} alt="황금단 로고" width={100} height={100} />
@@ -234,25 +165,115 @@ export default function Header() {
               ))}
             </nav>
 
-            <nav className="hidden md:flex space-x-6">
+            <nav className="hidden md:flex space-x-4">
               {isAuthenticated ? (
                 <Link
                   href="/profile"
                   className="text-gray-700 hover:text-primary"
                 >
-                  <UserRoundIcon size={24} />
+                  <UserRoundIcon size={20} />
                 </Link>
               ) : (
                 <Link
                   href="/login"
                   className="text-gray-700 hover:text-primary"
                 >
-                  <UserRoundPlus size={24} />
+                  <UserRoundPlus size={20} />
                 </Link>
               )}
               <Link href="/cart" className="text-gray-700 hover:text-primary">
-                <ShoppingCart size={24} />
+                <ShoppingCart size={20} />
               </Link>
+              {isAdmin && ( // ✅ 어드민이면 보이게 설정
+                <Link href="/ko" className="text-gray-700 hover:text-primary">
+                  <Settings size={20} />
+                </Link>
+              )}
+            </nav>
+
+            {/* 모바일 메뉴 버튼 */}
+            <Sidebar />
+          </div>
+        </header>
+      )}
+
+      {/* 스크롤 후 등장하는 애니메이션 헤더 */}
+      {scrolled && (
+        <motion.header
+          initial={{ y: -100, opacity: 0 }} // 처음에는 위에 숨겨져 있음
+          animate={{ y: 0, opacity: 1 }} // 등장할 때 아래로 내려옴
+          transition={{ duration: 0.5 }} // 부드러운 애니메이션 적용
+          className="bg-white shadow-md fixed w-full top-0 z-50"
+        >
+          <div className="container gap-4 mx-auto flex justify-between xl:justify-around items-center py-4 px-6 text-xs lg:text-sm sm:px-2 lg:px-6 sm:max-w-full max-md:max-w-full">
+            {/* 로고 */}
+            <Link href="/">
+              <Image src={Logo} alt="황금단 로고" width={100} height={100} />
+            </Link>
+
+            {/* 네비게이션 */}
+            <nav className="hidden md:flex space-x-4 lg:space-x-6 items-center">
+              {menuItems.map(({ name, href, subMenu }) => (
+                <div key={name} className="relative group">
+                  <Link
+                    href={href}
+                    className="text-gray-700 hover:text-primary flex items-center gap-1"
+                    onMouseEnter={() => handleMouseEnter(name)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    {name}
+                    {subMenu && <ChevronDown size={14} />}
+                  </Link>
+
+                  {/* 드롭다운 메뉴 */}
+                  {subMenu && openDropdown === name && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute left-0 mt-2 w-52 bg-white shadow-lg rounded-md p-2"
+                      onMouseEnter={() => handleMouseEnter(name)}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      {subMenu.map(({ name, href }) => (
+                        <Link
+                          key={name}
+                          href={href}
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                        >
+                          {name}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </div>
+              ))}
+            </nav>
+
+            <nav className="hidden md:flex space-x-4">
+              {isAuthenticated ? (
+                <Link
+                  href="/profile"
+                  className="text-gray-700 hover:text-primary"
+                >
+                  <UserRoundIcon size={20} />
+                </Link>
+              ) : (
+                <Link
+                  href="/login"
+                  className="text-gray-700 hover:text-primary"
+                >
+                  <UserRoundPlus size={20} />
+                </Link>
+              )}
+              <Link href="/cart" className="text-gray-700 hover:text-primary">
+                <ShoppingCart size={20} />
+              </Link>
+              {isAdmin && ( // ✅ 어드민이면 보이게 설정
+                <Link href="/ko" className="text-gray-700 hover:text-primary">
+                  <Settings size={20} />
+                </Link>
+              )}
             </nav>
 
             {/* 모바일 메뉴 버튼 */}

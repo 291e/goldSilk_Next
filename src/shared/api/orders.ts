@@ -4,6 +4,7 @@ import { OrderDetail, CreateOrderRequest } from "@/shared/types/orders";
 /** 주문 생성 */
 export async function createOrder(orderData: CreateOrderRequest) {
   const { data } = await axiosInstance.post("/orders", orderData);
+  console.log("✅ 주문 생성 완료: ", data);
   return data;
 }
 
@@ -14,10 +15,18 @@ export async function fetchOrder(orderId: number): Promise<OrderDetail> {
 }
 
 /** 내 주문 목록 조회 (페이징 지원) */
-export async function fetchMyOrders(page: number = 1, limit: number = 10) {
-  const { data } = await axiosInstance.get("/orders/my_orders", {
-    params: { page, limit },
-  });
+export async function fetchMyOrders(
+  page: number = 1,
+  limit: number = 10,
+  status: string | null = null // ✅ 필터 추가
+) {
+  const params: { page: number; limit: number; status?: string } = {
+    page,
+    limit,
+  };
+  if (status) params.status = status; // ✅ 필터 값이 있으면 추가
+
+  const { data } = await axiosInstance.get("/orders/my_orders", { params });
   return data;
 }
 
@@ -59,15 +68,17 @@ export async function checkShippingStatus(orderId: number) {
   );
   return data;
 }
-
 /** 배송지 수정 */
-export async function updateShippingAddress(
+export async function updateShippingStatus(
   orderId: number,
-  shipping_address: string
+  shippingStatus: string
 ) {
   const { data } = await axiosInstance.put(
-    `/orders/${orderId}/shipping-address`,
-    { shipping_address }
+    `/orders/${orderId}/update-shipping`,
+    {
+      orderId,
+      shippingStatus,
+    }
   );
   return data;
 }
@@ -81,5 +92,11 @@ export async function fetchAllOrders() {
 /** valid_order_id를 기반으로 order_id 조회 */
 export async function getOrderIdByValidOrderId(validOrderId: string) {
   const { data } = await axiosInstance.get(`/orders/lookup/${validOrderId}`);
+  return data;
+}
+
+/** 주문 요약 조회 */
+export async function fetchRecentOrderSummary(userId: number) {
+  const { data } = await axiosInstance.get(`/orders/summary/${userId}`);
   return data;
 }

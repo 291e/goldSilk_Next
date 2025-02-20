@@ -5,6 +5,7 @@ import { PriceSelector } from "./ProductInfo";
 import { QuantitySelector } from "./QuantitySelector";
 import { ActionButtons } from "./ActionButtons";
 import { Product } from "@/shared/types/products";
+import { useCartStore } from "@/shared/store/useCartStore";
 
 interface ProductRightSectionProps {
   product: Product;
@@ -15,8 +16,10 @@ export default function ProductRightSection({
 }: ProductRightSectionProps) {
   const [quantity, setQuantity] = useState(1);
   const [selectedPrice, setSelectedPrice] = useState(Number(product.price)); // 기본값: 세트 가격
+  const { addItem, loading, statusMessage, getCartItem } = useCartStore();
 
   const totalPrice = selectedPrice * quantity;
+  const cartItem = getCartItem(Number(product.product_id));
 
   const handleBuy = () => {
     console.log("✅ 구매하기:", {
@@ -26,12 +29,8 @@ export default function ProductRightSection({
     });
   };
 
-  const handleAddToCart = () => {
-    console.log("🛒 장바구니 담기:", {
-      product_id: product.product_id,
-      quantity,
-      totalPrice,
-    });
+  const handleAddToCart = async () => {
+    await addItem(Number(product.product_id), quantity);
   };
 
   const handleAddToWishlist = () => {
@@ -39,7 +38,7 @@ export default function ProductRightSection({
   };
 
   return (
-    <div className="flex flex-col gap-2 p-6 border rounded-lg bg-white shadow-md">
+    <div className="flex flex-col gap-2 p-6 border rounded-lg bg-white shadow-md max-w-sm">
       {/* 가격 선택 컴포넌트 */}
       <PriceSelector
         name={product.name}
@@ -53,7 +52,9 @@ export default function ProductRightSection({
       <div className="h-[1px] w-full bg-gray-200" />
 
       <div className="flex justify-between items-center">
-        <span className="text-sm">{product.name}</span>
+        <span className="text-xs text-red-500">
+          최소 주문 수량은 1개 이상입니다.
+        </span>
         <QuantitySelector onChange={setQuantity} />
       </div>
 
@@ -79,6 +80,10 @@ export default function ProductRightSection({
         onBuy={handleBuy}
         onAddToCart={handleAddToCart}
         onAddToWishlist={handleAddToWishlist}
+        cartItem={cartItem}
+        loading={loading}
+        statusMessage={statusMessage}
+        selectedPrice={selectedPrice}
       />
     </div>
   );

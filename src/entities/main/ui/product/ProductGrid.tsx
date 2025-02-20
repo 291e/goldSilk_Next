@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { ProductCard } from "../../../../entities/main/ui/product/ProductCard";
+import { ProductCard } from "./ProductCard";
 import { fetchAllProducts } from "@/shared/api/products";
 import { Product } from "@/shared/types/products";
 

@@ -7,6 +7,7 @@ import { ReviewSection } from "./ReviewSection";
 import { ProductInquirySection } from "./ProductInquirySection";
 import { NavTabs } from "@/widgets/ProductDetail/NavTabs";
 import { Product } from "@/shared/types/products";
+import RecommendedProductsSlider from "./RecommendedProducts";
 
 interface ProductBottomSectionProps {
   product: Product;
@@ -43,9 +44,10 @@ export default function ProductBottomSection({
   };
 
   return (
-    <div className="relative mt-8 w-full max-w-5xl">
+    <div className="relative w-full max-w-5xl">
+      <RecommendedProductsSlider productId={product.product_id} />
       {sections.map(({ id, Component }) => (
-        <div key={id} ref={sectionRefs[id]} className="pt-16">
+        <div key={id} ref={sectionRefs[id]} className="pt-8">
           <NavTabs activeSection={id} scrollToSection={scrollToSection} />
           <Component productId={product.product_id} />
         </div>

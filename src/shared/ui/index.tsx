@@ -12,3 +12,4 @@ export * from "./shadCn/textarea";
 export * from "./shadCn/toast";
 export * from "./shadCn/toaster";
 export * from "./shadCn/select";
+export * from "./shadCn/table";

@@ -7,7 +7,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import { Banner } from "../../model/types";
+import { Banner } from "@/entities/main/model/types";
 
 interface BannerSlideProps {
   banners: Banner[];
@@ -28,20 +28,14 @@ export const BannerSlide = ({ banners }: BannerSlideProps) => {
       >
         {banners.map((banner) => (
           <SwiperSlide key={banner.id}>
-            <a
-              href={banner.link || "#"}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                src={banner.image.src}
-                alt={banner.image.alt}
-                width={1920}
-                height={600}
-                className="w-full h-auto object-cover"
-                priority
-              />
-            </a>
+            <Image
+              src={banner.image.src}
+              alt={banner.image.alt}
+              width={1920}
+              height={600}
+              className="w-full h-auto object-cover"
+              priority
+            />
           </SwiperSlide>
         ))}
       </Swiper>

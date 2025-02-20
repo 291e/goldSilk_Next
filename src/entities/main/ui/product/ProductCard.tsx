@@ -51,7 +51,7 @@ export const ProductCard = ({
 
   return (
     <Link href={`/product/${product.product_id}`} className="block">
-      <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col h-full justify-between">
+      <div className="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col h-full justify-between max-w-[289.7px]">
         <div className="w-full h-48 sm:h-64 overflow-hidden">
           <Image
             src={imageUrl}
@@ -63,8 +63,8 @@ export const ProductCard = ({
             className="object-cover w-full h-full hover:scale-105 transition-transform"
           />
         </div>
-        <div className="p-4 flex flex-col flex-grow">
-          <div className="flex flex-col gap-2">
+        <div className="p-4 flex flex-col flex-grow border rounded-b-lg border-t-0">
+          <div className="flex flex-col">
             <span className="text-xs font-semibold line-clamp-1">
               {product.name}
             </span>
@@ -72,7 +72,7 @@ export const ProductCard = ({
               {Number(product.price).toLocaleString()}원
             </span>
             {product.tags?.length && (
-              <div className="flex gap-1 flex-wrap">
+              <div className="flex gap-1 flex-wrap pt-2">
                 {product.tags.slice(0, 2).map((tag, index) => (
                   <Badge key={index} className="text-[8px] px-1">
                     {tag}
@@ -80,10 +80,6 @@ export const ProductCard = ({
                 ))}
               </div>
             )}
-          </div>
-          {/* 모바일에서 버튼 숨기기 */}
-          <div className="hidden sm:block">
-            <Button className="w-full text-sm mt-3 py-0">자세히 보기</Button>
           </div>
         </div>
       </div>

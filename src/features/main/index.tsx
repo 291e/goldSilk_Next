@@ -1,5 +1,5 @@
 import { BannerCarousel } from "./ui/bannerCarousel/BannerCarousel";
-import { BestProductGrid } from "./ui/productGrid/BestProductGrid";
-import { NewProductGrid } from "./ui/productGrid/NewProductGrid";
+import { BestProductGrid } from "../../entities/main/ui/product/BestProductGrid";
+import { NewProductGrid } from "../../entities/main/ui/product/NewProductGrid";
 
 export { BestProductGrid, NewProductGrid, BannerCarousel };

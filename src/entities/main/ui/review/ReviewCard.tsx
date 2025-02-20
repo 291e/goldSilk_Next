@@ -15,6 +15,7 @@ import { StarRating } from "@/entities/product/ui/review/StarRating";
 export interface ReviewCardProps {
   review: Review;
   onReviewUpdate: () => void;
+  onclick?: () => void;
 }
 
 export const ReviewCard = ({ review, onReviewUpdate }: ReviewCardProps) => {

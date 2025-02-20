@@ -11,11 +11,13 @@ export async function fetchCartItems(): Promise<CartItem[]> {
 export async function addToCart(
   productId: number,
   quantity: number,
+  selectedPrice: number,
   options?: Record<string, any>
 ) {
   const { data } = await axiosInstance.post("/cart", {
     product_id: productId,
     quantity,
+    selected_price: selectedPrice,
     options,
   });
   return data;

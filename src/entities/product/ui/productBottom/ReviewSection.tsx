@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { ReviewCard } from "@/entities/main/ui/review/ReviewCard";
 import { fetchReviewsByProduct } from "@/shared/api/reviews";
 import { Skeleton } from "@/shared/ui";
-import { ReviewForm } from "../review/ReviewForm";
+import { ReviewForm } from "@/entities/product/ui/review/ReviewForm";
 import { Review } from "@/shared/types/reviews";
 import { Button } from "@/shared/ui/shadCn/button";
 import Link from "next/link";
