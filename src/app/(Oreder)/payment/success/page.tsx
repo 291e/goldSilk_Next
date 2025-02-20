@@ -71,7 +71,7 @@ function PaymentSuccessContent() {
       <p>주문 번호: {validOrderId}</p>
       <p>결제 금액: {amount}원</p>
 
-      <Button className="mt-4" onClick={() => router.push("/orders")}>
+      <Button className="mt-4" onClick={() => router.push("/Orders")}>
         주문 내역 확인하기
       </Button>
     </div>

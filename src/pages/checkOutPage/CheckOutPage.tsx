@@ -99,7 +99,7 @@ export default function CheckoutPage() {
         amount: totalAmount,
         orderId: validOrderId,
         orderName: `주문번호 ${validOrderId}`,
-        successUrl: `${window.location.origin}/payment/success?orderId=${validOrderId}`,
+        successUrl: `${window.location.origin}/Payment/success?orderId=${validOrderId}`,
         failUrl: `${window.location.origin}/payment/fail?orderId=${validOrderId}`,
         customerEmail: user?.email,
         customerName: recipientName,
