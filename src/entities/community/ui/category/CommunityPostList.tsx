@@ -25,7 +25,7 @@ export default function CommunityPostList({
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-h-[476px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {paginatedPosts.map((post) => (
           <Card key={post.community_id} className="p-0 sm:p-4">
             <CardHeader>
