@@ -83,7 +83,7 @@ export default function ProfilePage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
         {[
           {
-            href: "/orders",
+            href: "/Orders",
             title: "📦 주문 내역 조회",
             desc: "내 주문 내역을 확인하세요.",
           },
