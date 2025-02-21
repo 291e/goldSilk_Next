@@ -1,5 +1,5 @@
 import OrderDetailPage from "@/pages/ordersPage/orderDetailPage/OrderId";
 
-export default function Home() {
+export default function OrderDetail() {
   return <OrderDetailPage />;
 }

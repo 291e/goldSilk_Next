@@ -1,5 +1,5 @@
 import OrdersPage from "@/pages/ordersPage/OrdersPage";
 
-export default function Home() {
+export default function Orders() {
   return <OrdersPage />;
 }
