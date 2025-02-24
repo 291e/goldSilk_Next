@@ -34,12 +34,9 @@ export default function ProfilePage() {
 
       fetchRecentOrderSummary(user.user_id) // ✅ userId를 전달하도록 수정
         .then((data) => {
-          console.log("✅ 주문 현황 데이터:", data);
           setSummary(data);
         })
-        .catch((error) => {
-          console.error("🚨 주문 현황 조회 실패:", error);
-        });
+        .catch((error) => {});
     }
   }, [user?.user_id]); // ✅ user_id가 변경될 때마다 실행
 
@@ -83,7 +80,7 @@ export default function ProfilePage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
         {[
           {
-            href: "/Orders",
+            href: "/order",
             title: "📦 주문 내역 조회",
             desc: "내 주문 내역을 확인하세요.",
           },
@@ -93,12 +90,12 @@ export default function ProfilePage() {
             desc: "개인 정보를 업데이트하세요.",
           },
           {
-            href: "/wishlist",
+            href: "/wish",
             title: "❤️ 좋아요 목록",
             desc: "찜한 상품을 확인하세요.",
           },
           {
-            href: "/support",
+            href: "https://open.kakao.com/o/s5zVFwEg",
             title: "📝 문의하기",
             desc: "궁금한 점을 문의하세요.",
           },
@@ -116,7 +113,10 @@ export default function ProfilePage() {
         ))}
       </div>
 
-      <Button className="mt-6 w-full" onClick={handleLogout}>
+      <Button
+        className="mt-6 max-w-24 flex justify-center mx-auto"
+        onClick={handleLogout}
+      >
         로그아웃
       </Button>
     </div>

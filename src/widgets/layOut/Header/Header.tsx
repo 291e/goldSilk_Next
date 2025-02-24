@@ -15,6 +15,7 @@ import Logo from "@/shared/assets/logo.jpg";
 import Sidebar from "./Sidebar";
 import { useUserStore } from "@/shared/store/useUserStore";
 import SkeletonHeader from "./SkeletonHeader";
+import { useCartStore } from "@/shared/store/useCartStore";
 
 const menuItems = [
   { name: "브랜드", href: "/brand" },
@@ -83,6 +84,7 @@ const menuItems = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const { isAuthenticated, user, isLoading } = useUserStore();
+  const { cartCount } = useCartStore(); // ✅ 장바구니 아이템 가져오기
   const [isAdmin, setIsAdmin] = useState(user?.is_admin === true);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
@@ -181,8 +183,16 @@ export default function Header() {
                   <UserRoundPlus size={20} />
                 </Link>
               )}
-              <Link href="/Carts" className="text-gray-700 hover:text-primary">
+              <Link
+                href="/Carts"
+                className="relative text-gray-700 hover:text-primary"
+              >
                 <ShoppingCart size={20} />
+                {cartCount() > 0 && ( // ✅ 장바구니 개수 있으면 배지 표시
+                  <span className="absolute -top-2 -right-2 bg-[#353535] text-white text-xs font-bold w-4 h-4 flex items-center justify-center rounded-full">
+                    {cartCount()}
+                  </span>
+                )}
               </Link>
               {isAdmin && ( // ✅ 어드민이면 보이게 설정
                 <Link href="/ko" className="text-gray-700 hover:text-primary">
@@ -266,8 +276,16 @@ export default function Header() {
                   <UserRoundPlus size={20} />
                 </Link>
               )}
-              <Link href="/Carts" className="text-gray-700 hover:text-primary">
+              <Link
+                href="/Carts"
+                className="relative text-gray-700 hover:text-primary"
+              >
                 <ShoppingCart size={20} />
+                {cartCount() > 0 && ( // ✅ 장바구니 개수 있으면 배지 표시
+                  <span className="absolute -top-2 -right-2 bg-[#353535] text-white text-xs font-bold w-4 h-4 flex items-center justify-center rounded-full">
+                    {cartCount()}
+                  </span>
+                )}
               </Link>
               {isAdmin && ( // ✅ 어드민이면 보이게 설정
                 <Link href="/ko" className="text-gray-700 hover:text-primary">

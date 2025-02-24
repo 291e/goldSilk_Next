@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import axiosInstance from "@/shared/api/axiosInstance";
 import { User } from "@/shared/types/auth";
+import { useCartStore } from "./useCartStore";
 
 interface UserState {
   user: User | null;
@@ -53,7 +54,7 @@ export const useUserStore = create<UserState>((set) => ({
         token: data.refresh_token,
         isAuthenticated: true,
       });
-
+      useCartStore.getState().loadCart();
       // ✅ 로그인 후 유저 정보 즉시 가져오기
       await useUserStore.getState().fetchUser();
     } catch (error: any) {
@@ -79,7 +80,7 @@ export const useUserStore = create<UserState>((set) => ({
   socialLogin: (provider, token, refreshToken) => {
     sessionStorage.setItem("refresh_token", refreshToken);
     set({ token: refreshToken, isAuthenticated: true });
-
+    useCartStore.getState().loadCart();
     useUserStore.getState().fetchUser();
   },
 
@@ -115,9 +116,16 @@ export const useUserStore = create<UserState>((set) => ({
       }
     }
 
+    sessionStorage.removeItem("refresh_token");
+    sessionStorage.removeItem("access_token");
+
+    delete axiosInstance.defaults.headers.common["Authorization"];
+
+    // ✅ 3. 장바구니 초기화 (UI만)
+    useCartStore.getState().resetCart();
+
     // ✅ 세션 스토리지 초기화
     set({ user: null, token: null, isAuthenticated: false });
-    sessionStorage.removeItem("refresh_token");
   },
 
   // ✅ 유저 정보 가져오기 (리프레시 토큰 사용)

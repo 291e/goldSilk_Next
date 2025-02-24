@@ -69,7 +69,7 @@ export default function OrderDetailPage() {
       </div>
 
       <div className="mt-6">
-        <Button variant="outline" onClick={() => router.push("/orders")}>
+        <Button variant="outline" onClick={() => router.push("/order")}>
           주문 목록으로 돌아가기
         </Button>
       </div>

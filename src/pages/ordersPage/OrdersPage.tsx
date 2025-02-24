@@ -32,15 +32,11 @@ export default function OrdersPage() {
   useEffect(() => {
     const loadOrders = async () => {
       try {
-        console.log(
-          `📢 Fetching orders - Page: ${currentPage}, Status: ${filter}`
-        );
         const data = await fetchMyOrders(currentPage, 10, filter); // ✅ 필터링된 상태로 API 요청
-        console.log("📌 주문 데이터 응답:", data);
+
         setOrders(data.orders);
         setTotalPages(data.totalPages);
       } catch (error) {
-        console.error("🚨 주문 목록을 불러올 수 없습니다.", error);
       } finally {
         setLoading(false);
       }
@@ -107,7 +103,7 @@ export default function OrdersPage() {
               <TableCell>
                 <Button
                   variant="outline"
-                  onClick={() => router.push(`/orders/${order.order_id}`)}
+                  onClick={() => router.push(`/order/${order.order_id}`)}
                 >
                   상세 보기
                 </Button>

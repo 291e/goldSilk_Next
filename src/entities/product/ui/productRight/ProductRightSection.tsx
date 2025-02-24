@@ -84,6 +84,7 @@ export default function ProductRightSection({
         loading={loading}
         statusMessage={statusMessage}
         selectedPrice={selectedPrice}
+        product_id={product.product_id}
       />
     </div>
   );

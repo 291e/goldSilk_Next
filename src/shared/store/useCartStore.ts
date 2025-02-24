@@ -10,7 +10,7 @@ import {
 
 interface CartState {
   cart: CartItem[];
-  cartCount: number;
+  cartCount: () => number;
   loading: boolean;
   statusMessage: string | null;
   loadCart: () => Promise<void>;
@@ -27,11 +27,12 @@ interface CartState {
   removeItem: (cartId: number) => Promise<void>;
   clear: () => Promise<void>;
   getCartItem: (productId: number) => CartItem | undefined;
+
+  resetCart: () => void;
 }
 
 export const useCartStore = create<CartState>((set, get) => ({
   cart: [],
-  cartCount: 0,
   loading: false,
   statusMessage: null,
 
@@ -40,7 +41,7 @@ export const useCartStore = create<CartState>((set, get) => ({
     set({ loading: true, statusMessage: null });
     try {
       const cartData = await fetchCartItems();
-      set({ cart: cartData, cartCount: cartData.length });
+      set({ cart: cartData });
     } catch (error) {
       console.error("🚨 장바구니 불러오기 실패:", error);
       set({ statusMessage: "장바구니를 불러오는 중 오류가 발생했습니다." });
@@ -102,7 +103,6 @@ export const useCartStore = create<CartState>((set, get) => ({
       await clearCart();
       set({
         cart: [],
-        cartCount: 0,
         statusMessage: "🛒 장바구니가 비워졌습니다!",
       });
     } catch (error) {
@@ -116,5 +116,13 @@ export const useCartStore = create<CartState>((set, get) => ({
   /** ✅ 특정 상품이 장바구니에 있는지 찾기 */
   getCartItem: (productId) => {
     return get().cart.find((item) => item.product_id === productId);
+  },
+
+  /** ✅ 장바구니 개수를 반환 */
+  cartCount: () => get().cart.reduce((total, item) => total + item.quantity, 0),
+
+  /** ✅ 장바구니 초기화 (로그아웃 시 호출) */
+  resetCart: () => {
+    set({ cart: [] });
   },
 }));

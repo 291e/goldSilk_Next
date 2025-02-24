@@ -87,31 +87,35 @@ export const ProductList = ({ category }: ProductListProps) => {
       transition={{ duration: 0.5 }}
     >
       {/* 🔍 검색 & 필터 */}
-      <motion.div
-        className="flex justify-between gap-4 mb-6 items-center w-full"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.2 }}
-      >
-        <SearchBar
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          onSearch={handleSearch}
-        />
-        <FilterSelect
-          filter={filter}
-          setFilter={setFilter}
-          options={[
-            { value: "latest", label: "최신순" },
-            { value: "low_price", label: "낮은 가격순" },
-            { value: "high_price", label: "높은 가격순" },
-          ]}
-        />
-      </motion.div>
+      {products.length > 0 && (
+        <motion.div
+          className="flex justify-between gap-4 mb-6 items-center w-full"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.2 }}
+        >
+          <SearchBar
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            onSearch={handleSearch}
+          />
+          <FilterSelect
+            filter={filter}
+            setFilter={setFilter}
+            options={[
+              { value: "latest", label: "최신순" },
+              { value: "low_price", label: "낮은 가격순" },
+              { value: "high_price", label: "높은 가격순" },
+            ]}
+          />
+        </motion.div>
+      )}
 
       {/* 🛒 상품 리스트 */}
       {isLoading ? (
         <p className="text-gray-500 text-center">상품을 불러오는 중...</p>
+      ) : filteredProducts.length === 0 ? (
+        <p className="text-gray-500 text-center">등록된 상품이 없습니다.</p>
       ) : (
         <motion.div
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-4"
@@ -132,7 +136,7 @@ export const ProductList = ({ category }: ProductListProps) => {
       )}
 
       {/* 📌 페이지네이션 */}
-      {totalPages > 1 && (
+      {filteredProducts.length > 0 && totalPages > 1 && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

@@ -48,8 +48,11 @@ export async function getUser(): Promise<User> {
 }
 
 /** 회원 정보 수정 */
-export async function updateUser(userId: number, userInfo: UpdateUserRequest) {
-  const { data } = await axiosInstance.put(`/auth/${userId}`, userInfo);
+export async function updateUserInfo(userData: {
+  username?: string;
+  phone?: string;
+}) {
+  const { data } = await axiosInstance.put("/auth/me", userData);
   return data;
 }
 
