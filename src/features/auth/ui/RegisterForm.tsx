@@ -53,6 +53,10 @@ export default function RegisterForm() {
     // ✅ useEffect에서 form state 업데이트
     setEmail(email || "");
     setUsername(username || "");
+
+    if (provider) {
+      setPassword("");
+    }
   }, [searchParams]); // searchParams가 변경될 때마다 실행
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -61,21 +65,23 @@ export default function RegisterForm() {
     setSuccessMessage("");
     setErrorField(null);
 
-    if (!username || !email || !password || !phone) {
+    if (!username || !email || !phone || (!socialProvider && !password)) {
       setError("모든 필드를 입력해주세요.");
       setErrorField(
         !username
           ? "username"
           : !email
             ? "email"
-            : !password
-              ? "password"
-              : "phone"
+            : !phone
+              ? "phone"
+              : !socialProvider && !password
+                ? "password"
+                : null
       );
       return;
     }
 
-    if (password.length < 6) {
+    if (!socialProvider && password.length < 6) {
       setError("비밀번호는 최소 6자 이상이어야 합니다.");
       setErrorField("password");
       return;
@@ -87,7 +93,7 @@ export default function RegisterForm() {
       await register(
         username,
         email,
-        password,
+        socialProvider ? "" : password,
         phone,
         socialProvider,
         socialId
@@ -159,33 +165,34 @@ export default function RegisterForm() {
         </div>
 
         {/* ✅ 비밀번호 입력 필드는 항상 보이도록 변경 */}
-        <div className="relative w-full">
-          <Label htmlFor="password">비밀번호</Label>
-          <div className="flex items-center w-full justify-between border-[1px] p-2 rounded-md">
-            <input
-              id="password"
-              type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className={
-                errorField === "password"
-                  ? "border-red-500"
-                  : "outline-none w-full text-sm"
-              }
-            />
-            <button
-              type="button"
-              className="text-gray-500 hover:text-gray-700 pr-2"
-              onMouseDown={() => setShowPassword(true)}
-              onMouseUp={() => setShowPassword(false)}
-              onMouseLeave={() => setShowPassword(false)}
-            >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-            </button>
+        {!socialProvider && (
+          <div className="relative w-full">
+            <Label htmlFor="password">비밀번호</Label>
+            <div className="flex items-center w-full justify-between border-[1px] p-2 rounded-md">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required={!socialProvider}
+                className={
+                  errorField === "password"
+                    ? "border-red-500"
+                    : "outline-none w-full text-sm"
+                }
+              />
+              <button
+                type="button"
+                className="text-gray-500 hover:text-gray-700 pr-2"
+                onMouseDown={() => setShowPassword(true)}
+                onMouseUp={() => setShowPassword(false)}
+                onMouseLeave={() => setShowPassword(false)}
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
           </div>
-        </div>
-
+        )}
         <div>
           <Label htmlFor="phone">전화번호</Label>
           <Input
