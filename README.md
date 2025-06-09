@@ -1,3 +1,40 @@
+# 황금단 쇼핑몰 (GoldSilk Shopping Mall)
+
+황금단 쇼핑몰은 Next.js와 TypeScript를 기반으로 한 현대적인 이커머스 플랫폼입니다.
+
+## 기술 스택
+
+### 프론트엔드
+- **프레임워크**: Next.js 15.1.3
+- **언어**: TypeScript
+- **상태 관리**: Redux Toolkit, Zustand
+- **스타일링**: 
+  - Tailwind CSS
+  - Material-UI (@mui/material)
+  - shadcn/ui
+  - Emotion
+- **UI/UX**: 
+  - Framer Motion (애니메이션)
+  - Swiper (슬라이더)
+  - React Icons
+  - React Toastify (알림)
+- **폼 & 에디터**:
+  - TipTap (리치 텍스트 에디터)
+  - React Daum Postcode (주소 검색)
+
+### 백엔드
+- **데이터베이스**: Prisma ORM
+- **API 통신**: Axios
+
+### 개발 도구
+- **코드 품질**:
+  - ESLint
+  - Prettier
+- **타입 체크**: TypeScript
+- **빌드 도구**: Next.js Build System
+
+## 주요 기능
+
 NextJS + TS
 
 황금단 프론트
